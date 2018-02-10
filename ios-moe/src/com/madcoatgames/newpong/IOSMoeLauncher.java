@@ -18,6 +18,8 @@ public class IOSMoeLauncher extends IOSApplication.Delegate {
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
         config.useAccelerometer = false;
+        config.orientationLandscape = true;
+        config.orientationPortrait = false;
         return new IOSApplication(new NewPong(new DesktopActionResolver()), config);
     }
 

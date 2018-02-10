@@ -16,7 +16,7 @@ public class SaveDataProcessor {
 	public static String internalSaveDataPathPrefix = "";
 
 	public static void processToFile(SaveData saveData){
-		// /* // comment in this line for html builds
+//		/* // comment in this line for html builds
 		if (Gdx.app.getType() == ApplicationType.WebGL) {
 			return;
 		}
@@ -47,13 +47,13 @@ public class SaveDataProcessor {
 			System.out.println(file.readString());
 		}
 		System.out.println(file.path());
-		//*/ // comment in this line for html builds
+//		*/ // comment in this line for html builds
 	}
 	public static Array<Score> generateScores(){
 		boolean isDesktop = (Gdx.app.getType() == ApplicationType.Desktop);
 
 		Array<Score> scores = new Array<Score>();
-		///* // comment in this line for html builds
+//		/* // comment in this line for html builds
 		SaveData saveData;
 		
 		Json json = new Json();

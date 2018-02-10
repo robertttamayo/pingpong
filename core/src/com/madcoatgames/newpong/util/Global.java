@@ -23,6 +23,8 @@ public class Global {
 	public static final Color c4 = new Color();
 	
 	private static boolean canInitialize = true;
+	
+	public static float electricutedPeriod = 1.2f;
 
 	public static float width() {
 		return width;

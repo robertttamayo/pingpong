@@ -49,7 +49,7 @@ public class ModeMenuHUD implements Disposable{
 		
 		buttons.add(titleButton);
 		buttons.add(arcadeButton);
-//		buttons.add(battleButton);
+		buttons.add(battleButton);
 		
 		placement = new ModeMenuHUDPlacement();
 		placement.settle(buttons);
@@ -104,14 +104,14 @@ public class ModeMenuHUD implements Disposable{
 				);
 		fontCache.draw(batch);
 		
-//		gl.setText(fontCache.getFont(), battleMessage);
-//		fontCache.setText(
-//				battleMessage, 
-//				battleButton.getCenterPaddingX() - (gl.width / 2f),
-//				battleButton.getCenterPaddingY() + (gl.height / 2f)
-//				);
-//		fontCache.draw(batch);
-//		gl.reset();
+		gl.setText(fontCache.getFont(), battleMessage);
+		fontCache.setText(
+				battleMessage, 
+				battleButton.getCenterPaddingX() - (gl.width / 2f),
+				battleButton.getCenterPaddingY() + (gl.height / 2f)
+				);
+		fontCache.draw(batch);
+		gl.reset();
 		
 		batch.end();
 		

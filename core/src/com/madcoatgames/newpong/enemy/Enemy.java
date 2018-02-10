@@ -42,6 +42,19 @@ public abstract class Enemy extends Rectangle{
 	public abstract float getOriginY();
 	public abstract float getOriginX();
 	
+	public abstract float getTravelY();
+	public abstract int getReversed();
+	public abstract float getDelay();
+	public abstract float getAttackInterval();
+	
+	public abstract void updateElectricuted(float delta);
+	public abstract boolean isElectricuted();
+	protected abstract void setElectricuted(boolean electricuted);
+	public abstract float getElectricutedTime();
+	public abstract float getElectricutedPeriod();
+	public abstract boolean getElectricContact();
+	public abstract void setElectricContact(boolean electricContact);
+	
 	protected Enemy(int maxHealth){
 		this.maxHealth = maxHealth;
 	}

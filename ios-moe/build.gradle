@@ -35,15 +35,42 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 // Setup Multi-OS Engine
 moe {
+    
     xcode {
         project 'xcode/ios-moe.xcodeproj'
         mainTarget 'ios-moe'
         testTarget 'ios-moe-Test'
+
+        mainScheme 'ios-moe'
+        testScheme 'ios-moe-Test'
+    }
+    
+    signing {
+        developmentTeam '73Y3RTRF2D'
+
+        provisioningProfileSpecifier 'Revolve Profile 3'
+        provisioningProfile '/Users/roberttamayo/madcoatgames/provisioning/Revolve_Profile_3.mobileprovision'
+        
+        //provisioningProfileSpecifier '/Users/roberttamayo/revolve.mobileprovision'
+        //provisioningProfile '/Users/roberttamayo/revolve.mobileprovision'
+        
+        
+
+        // String, name of the signing identity
+        //signingIdentity '86********************************ED'
     }
 
     remoteBuild {
         resources = [ file("../android/assets") ]
     }
+    
+    ipaExport {
+	    // (String) Describes how Xcode should export the archive. Available options: app-store, ad-hoc, package,
+	    // enterprise, development, and developer-id. The list of options varies based on the type of archive. Defaults
+	    // to development.
+	    method 'app-store'
+    }
+  
 }
 
 moeMainReleaseIphoneosXcodeBuild.dependsOn copyNatives

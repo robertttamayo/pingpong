@@ -1,5 +1,6 @@
 package com.madcoatgames.newpong.play;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -9,5 +10,6 @@ public abstract Rectangle getCollisionBounds();
 public abstract void update(float delta);
 public abstract void draw(ShapeRenderer shaper);
 public abstract boolean isDead();
+public abstract void setColors(Color colorA, Color colorB, Color colorC);
 
 }

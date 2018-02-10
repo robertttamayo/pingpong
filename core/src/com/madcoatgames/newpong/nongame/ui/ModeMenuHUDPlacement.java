@@ -31,7 +31,7 @@ public class ModeMenuHUDPlacement {
 		arcade = getButtonByType(buttons, ButtonType.MODE_ARCADE);
 		if (arcade != null) {
 			arcade.setSize(frame.width/2f, .2f * frame.height);
-			arcade.setPosition(frame.x + frame.width*.25f, frame.y);
+			arcade.setPosition(frame.x, frame.y);
 			
 			arcade.setPaddingLeft(padding);
 			arcade.setPaddingRight(padding);

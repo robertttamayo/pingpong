@@ -2,6 +2,7 @@ package com.madcoatgames.newpong.rule;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -109,9 +110,11 @@ public class GameMaster extends ScreenMaster{
 		rm.renderLine(shaper, logic.getLine());
 		//rm.renderShapeEnemies(shaper, logic.getEnemyMaster().getEnemies());
 		if (Global.getGameMode() != Global.ARCADE) {
-			rm.renderBatchEnemies(batch, logic.getEnemyMaster().getEnemies());
+			rm.renderBatchEnemies(batch, logic.getEnemyMaster().getEnemies(), logic.getTcc().c1);
 			rm.renderHazards(shaper, logic.getEnemyMaster().getHazards());
 			rm.renderHealth(shaper, logic.getTcc(), logic.getHealth(), logic.getMaxHealth(), logic.isHit());
+			logic.getLightningManager().render(shaper, delta);
+			logic.getLightningManager().renderTargetCircle(logic.getEnemyMaster().getEnemies(), shaper, delta);
 		}
 		
 		sm.update();

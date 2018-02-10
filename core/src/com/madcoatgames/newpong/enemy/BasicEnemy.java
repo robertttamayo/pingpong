@@ -7,13 +7,18 @@ import com.madcoatgames.newpong.util.Global;
 
 public class BasicEnemy extends Enemy implements FollowsBall{
 	private BasicBrain brain;
+	
 	private int dir = RIGHT;
-	private float renderWidth = 120f;
-	private float renderHeight = 120f;
+	private float renderWidth = 60f;
+	private float renderHeight = 60f;
 	
 	private final int type = EnemyType.UFO_MEDIUM;
 	private boolean dead = false;
 	private boolean isHit = false;
+	
+	public boolean electricuted;
+	public float electricutedTime = 0;
+	public float electricutedPeriod = .45f;
 	
 	/**
 	 * 
@@ -29,8 +34,8 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 		
 		
 		
-		width = 120f;
-		height = 120f;
+		width = 60f;
+		height = 60f;
 		x = Global.centerWidth() - width/2f;
 		y = Global.centerHeight() - height/2f;
 		
@@ -43,6 +48,7 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 	public void update(float delta) {
 		stateTime += delta;
 		brain.update(delta);
+		updateElectricuted(delta);
 		if (dead) {
 			//should ignore collision at this point.
 			// enemies don't actually 'die', they instead reset their health and respawn.
@@ -159,4 +165,72 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 		
 	}
 
+	@Override
+	public float getTravelY() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getReversed() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	@Override
+	public float getDelay() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getAttackInterval() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void updateElectricuted(float delta) {
+		if (electricuted) {
+			electricutedTime -= delta;
+			if (electricutedTime <= 0) {
+				this.damage();
+				this.setHit(true);
+			}
+		}
+	}
+
+	@Override
+	public boolean isElectricuted() {
+		// TODO Auto-generated method stub
+		return this.electricuted;
+	}
+
+	@Override
+	public void setElectricuted(boolean electricuted) {
+		this.electricuted = electricuted;
+		this.electricutedTime = this.electricutedPeriod;
+	}
+
+	@Override
+	public float getElectricutedTime() {
+		// TODO Auto-generated method stub
+		return this.electricutedTime;
+	}
+	@Override
+	public float getElectricutedPeriod() {
+		return this.electricutedPeriod;
+	}
+
+	@Override
+	public boolean getElectricContact() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setElectricContact(boolean electricContact) {
+		// TODO Auto-generated method stub
+		
+	}
 }

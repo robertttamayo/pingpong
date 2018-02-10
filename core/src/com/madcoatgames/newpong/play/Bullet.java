@@ -53,6 +53,8 @@ public class Bullet extends Hazard{
 		shaper.setColor(Color.RED);
 		shaper.rect(bounds.x, bounds.y, bounds.width, bounds.height);
 		
+		
+		
 		shaper.end();
 	}
 
@@ -60,6 +62,12 @@ public class Bullet extends Hazard{
 	public boolean isDead() {
 		// TODO Auto-generated method stub
 		return isDead;
+	}
+
+	@Override
+	public void setColors(Color colorA, Color colorB, Color colorC) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

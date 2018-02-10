@@ -8,6 +8,7 @@ import com.madcoatgames.newpong.look.HUDRenderer;
 import com.madcoatgames.newpong.look.MenuOperator;
 import com.madcoatgames.newpong.play.Button;
 import com.madcoatgames.newpong.play.Table;
+import com.madcoatgames.newpong.powerups.electricity.LightningManager;
 import com.madcoatgames.newpong.util.FilledShapeRenderable;
 import com.madcoatgames.newpong.util.Global;
 import com.madcoatgames.newpong.util.LineShapeRenderable;
@@ -29,6 +30,7 @@ public class LogicMaster {
 	private EnemyMaster em;
 	private BattlePaddleMaster battleMaster;
 	private StarBackgroundMaster starBg;
+	private BallPowerupMaster ballPowerupMaster;
 	
 	private GameStartCountdown gameStartCountdown;
 	
@@ -46,13 +48,14 @@ public class LogicMaster {
 		pm = new PaddleMaster();
 		im = new InputMaster();
 		bpm = new BallPaddleMaster();
-		ebm = new EnemyBallMaster();
+		ebm = new EnemyBallMaster(bm.getBall());
 		battleMaster = new BattlePaddleMaster();
 //		tcc = new TriColorChanger(new Color(1, .5f, .5f, 1), new Color(.5f, 1, .5f, 1), new Color(.5f, .5f, 1, 1));
 		tcc = new TriColorChanger(new Color(.25f, .64f, 1, 1)
 								, new Color(.64f, 1, .25f, 1)
 								, new Color(1, .25f, .64f, 1));
 		em = new EnemyMaster();
+		ballPowerupMaster = new BallPowerupMaster(bpm, bm, ebm);
 	}
 	public void updateCountdownMode(float delta, HUDRenderer hr, SpriteBatch batch) {
 		if (MenuOperator.countdownEnabled && !gameStartCountdown.update(delta)) {
@@ -106,11 +109,16 @@ public class LogicMaster {
 		bm.update(delta);
 		pm.update(tcc.c3, delta);
 		bpm.testCollisions(bm.getBall(), pm.getPaddles());
+		ballPowerupMaster.update(delta);;
 		
 		starBg.update(delta);
 		
+		em.color1 = tcc.c1;
+		em.color2 = tcc.c2;
+		em.color3 = tcc.c3;
 		em.update(delta);
 		ebm.update(bm.getBall(), em.getEnemies());
+		ebm.testCloneBallCollisions(bm.getCloneBalls(), em.getEnemies());
 		battleMaster.update(delta);
 		battleMaster.testCollision(em.getHazards(), pm.getPaddles());
 		if (battleMaster.isPlayerLose()){
@@ -125,7 +133,9 @@ public class LogicMaster {
 		
 		filled.clear();
 		filled.addAll(starBg.getFilled());
-		filled.addAll(bm.getFilled());
+		if (!ebm.getLightningManager().getActive()) {
+			filled.addAll(bm.getFilled());
+		}
 		filled.addAll(pm.getFilled());
 		
 	}
@@ -175,5 +185,12 @@ public class LogicMaster {
 	}
 	public boolean isCountdownInProgress() {
 		return MenuOperator.countdownEnabled;
+	}
+	public LightningManager getLightningManager() {
+		if (Global.getGameMode() == Global.MISSIONS) {
+			return ebm.getLightningManager();
+		} else {
+			return null;
+		}
 	}
 }

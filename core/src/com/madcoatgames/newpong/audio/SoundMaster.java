@@ -63,6 +63,11 @@ public class SoundMaster implements Disposable{
 		hyper.dispose();
 		elec.dispose();
 		charge.dispose();
+		paddle_1.dispose();
+		paddle_2.dispose();
+		paddle_3.dispose();
+		paddle_4.dispose();
+		paddle_5.dispose();
 	}
 	public void update(){
 		playOnQueue();

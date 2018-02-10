@@ -46,6 +46,7 @@ public class BallRenderer implements FilledShapeRenderable, LineShapeRenderable,
 	}
 	@Override
 	public void renderFilled(ShapeRenderer shaper) {
+
 		boolean live = ball.isLive();
 		
 		for (int i = ball.getTrail().size - 1; i >= 0; i--){

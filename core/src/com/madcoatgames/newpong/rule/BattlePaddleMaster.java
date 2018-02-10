@@ -1,11 +1,12 @@
 package com.madcoatgames.newpong.rule;
 
 import com.badlogic.gdx.utils.Array;
+import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.play.Hazard;
 import com.madcoatgames.newpong.play.Paddle;
 
 public class BattlePaddleMaster {
-
+	
 	private int playerHealth = 3;
 	private final int maxPlayerHealth = 3;
 	private boolean playerLose = false;
@@ -33,6 +34,8 @@ public class BattlePaddleMaster {
 				if (hazard.getCollisionBounds().overlaps(paddle)){
 					playerDamage();
 					hazards.removeValue(hazard, true);
+					BallPaddleMaster.resetHits();
+					SoundMaster.heroHitq = true;
 				}
 			}
 		}

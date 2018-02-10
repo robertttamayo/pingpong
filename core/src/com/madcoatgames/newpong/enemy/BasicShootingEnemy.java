@@ -1,5 +1,6 @@
 package com.madcoatgames.newpong.enemy;
 
+import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.enemy.brain.BasicBrain;
 import com.madcoatgames.newpong.enemy.brain.BattleBrain;
 import com.madcoatgames.newpong.enemy.brain.Brain;
@@ -9,12 +10,19 @@ import com.madcoatgames.newpong.util.Global;
 public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	private BattleBrain brain;
 	private int dir = RIGHT;
-	private float renderWidth = 120f;
-	private float renderHeight = 120f;
+	private float renderWidth = 80f;
+	private float renderHeight = 80f;
 	
 	private final int type = EnemyType.UFO_MEDIUM;
 	private boolean dead = false;
 	private boolean isHit = false;
+	
+	public boolean electricuted;
+	public float electricutedTime = 0;
+	public float electricutedPeriod = Global.electricutedPeriod; //.45f
+	public boolean electricContact = false;
+	
+	private float travelY = Global.height()/3f;
 	
 	/**
 	 * 
@@ -24,14 +32,17 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	private float stateTime = 0;
 	private float originY;
 	
+	private float delay = 0;
+	private int yDir = 1;
+	
+	private float attackInterval = 5f;
+	
 	public BasicShootingEnemy(int maxHealth){
 		super(maxHealth);
 		health = maxHealth;
 		
-		
-		
-		width = 120f;
-		height = 120f;
+		width = 80f;
+		height = 80f;
 		x = Global.centerWidth() - width/2f;
 		y = Global.centerHeight() - height/2f;
 		
@@ -39,11 +50,21 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		
 		brain = new BattleBrain(this);
 	}
+	public BasicShootingEnemy(int maxHealth, float x, float y, float travelY, float delay, float interval, int yDir) {
+		this(maxHealth);
+		this.x = x;
+		this.y = y;
+		setOriginY(y);
+		this.travelY = travelY;
+		this.delay = delay;
+		this.yDir = yDir;
+	}
 
 	@Override
 	public void update(float delta) {
 		stateTime += delta;
 		brain.update(delta);
+		updateElectricuted(delta);
 		if (dead) {
 			//should ignore collision at this point.
 			// enemies don't actually 'die', they instead reset their health and respawn.
@@ -138,6 +159,8 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		if (health <= 0) {
 			health = 0;
 			setDead(true);
+		} else {
+			SoundMaster.dashq = true;
 		}
 	}
 
@@ -159,5 +182,71 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		health = maxHealth;
 		
 	}
-
+	public float getTravelY() {
+		return this.travelY;
+	}
+	@Override
+	public int getReversed() {
+		// TODO Auto-generated method stub
+		return this.yDir;
+	}
+	@Override
+	public float getDelay() {
+		// TODO Auto-generated method stub
+		return this.delay;
+	}
+	public float getAttackInterval() {
+		return this.attackInterval;
+	}
+	@Override
+	public void updateElectricuted(float delta) {
+		if (electricuted) {
+			if (electricContact) {
+				electricutedTime -= delta;
+			} else {
+				electricutedTime += delta*.1f;
+			}
+			if (electricutedTime <= 0) {
+				this.damage();
+				this.setHit(true);
+				electricuted = false;
+				electricContact = false;
+			} else if (electricutedTime > Global.electricutedPeriod) {
+				electricutedTime = Global.electricutedPeriod;
+				electricuted = false;
+				electricContact = false;
+			}
+		}
+	}
+	@Override
+	public boolean isElectricuted() {
+		return this.electricuted;
+	}
+	@Override
+	public void setElectricuted(boolean electricuted) {
+		if (electricuted) {
+			if (!this.electricuted) {
+				this.electricutedTime = Global.electricutedPeriod;
+			}
+			this.electricuted = electricuted;
+		}
+	}
+	@Override
+	public float getElectricutedTime() {
+		return this.electricutedTime;
+	}
+	@Override
+	public float getElectricutedPeriod() {
+		return Global.electricutedPeriod;
+	}
+	public boolean getElectricContact() {
+		return this.electricContact;
+	}
+	public void setElectricContact(boolean electricContact) {
+		this.electricContact = electricContact;
+		if (electricContact) {
+			setElectricuted(true);
+		}
+	}
+	
 }

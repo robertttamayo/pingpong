@@ -54,7 +54,6 @@ public class MusicMaster implements Disposable{
 	}
 	public void update(float delta) {
 		if (this.changingTracks) {
-			System.out.println("changing tracks");
 			fadeTimer += delta;
 			if (fadeTimer >= fadeInterval) {
 				fadeTimer = 0f;
@@ -65,6 +64,7 @@ public class MusicMaster implements Disposable{
 				String trackName = getTrackName(nextTrack);
 				System.out.println("trackName: " + trackName);
 				music = Gdx.audio.newMusic(Gdx.files.internal("music/" + trackName));
+				music.setLooping(true);
 				music.play();
 			} else {
 				volume = (fadeInterval - fadeTimer) / (fadeInterval);

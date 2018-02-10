@@ -10,6 +10,7 @@
 		093EA0331288EEC18D3C79EC /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E152A74253836079FA1075F /* main.cpp */; };
 		16479D2CDCAC394B9A9722FE /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8084D1F0A307440EC73CBFCA /* main.cpp */; };
 		1BC836EF57DF0BA82F65BED9 /* moe-main-interfaces.m in Sources */ = {isa = PBXBuildFile; fileRef = AE849253332D33EDDC76AB2C /* moe-main-interfaces.m */; };
+		4E788E692022BB670075A487 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58C6F5381DA66CB600309CB6 /* Info.plist */; };
 		581773911E37A0F0004E28A9 /* Default-375w-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 581773851E37A0F0004E28A9 /* Default-375w-667h@2x.png */; };
 		581773921E37A0F0004E28A9 /* Default-414w-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 581773861E37A0F0004E28A9 /* Default-414w-736h@3x.png */; };
 		581773931E37A0F0004E28A9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 581773871E37A0F0004E28A9 /* Default-568h@2x.png */; };
@@ -223,9 +224,13 @@
 				TargetAttributes = {
 					5863B87A1DA682C800E46B6A = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 73Y3RTRF2D;
+						ProvisioningStyle = Manual;
 					};
 					58C6F5231DA66CB600309CB6 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 73Y3RTRF2D;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -268,6 +273,7 @@
 				581773941E37A0F0004E28A9 /* Default-1024w-1366h@2x~ipad.png in Resources */,
 				581773981E37A0F0004E28A9 /* Default~ipad.png in Resources */,
 				581773921E37A0F0004E28A9 /* Default-414w-736h@3x.png in Resources */,
+				4E788E692022BB670075A487 /* Info.plist in Resources */,
 				581773931E37A0F0004E28A9 /* Default-568h@2x.png in Resources */,
 				581773951E37A0F0004E28A9 /* Default.png in Resources */,
 			);
@@ -355,7 +361,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.madcoatgames.newpong";
+				PRODUCT_BUNDLE_IDENTIFIER = com.madcoatgames.newpong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -389,7 +395,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.madcoatgames.newpong";
+				PRODUCT_BUNDLE_IDENTIFIER = com.madcoatgames.newpong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -415,9 +421,12 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 73Y3RTRF2D;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -438,6 +447,7 @@
 				MOE_VERSION = 1.3.6;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -463,9 +473,12 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Robert Tamayo (73Y3RTRF2D)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Robert Tamayo (73Y3RTRF2D)";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 73Y3RTRF2D;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -479,6 +492,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MOE_VERSION = 1.3.6;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE_SPECIFIER = "Revolve Profile 3";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -490,7 +504,11 @@
 			baseConfigurationReference = 5817739D1E37A10D004E28A9 /* custom.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 73Y3RTRF2D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,8 +534,10 @@
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.madcoatgames.newpong";
+				PRODUCT_BUNDLE_IDENTIFIER = com.madcoatgames.newpong;
 				PRODUCT_NAME = "revolve-ping-pong";
+				PROVISIONING_PROFILE = "02d181dc-a4ab-4d4e-b597-030cb15d508e";
+				PROVISIONING_PROFILE_SPECIFIER = "Ping Pong Dev Profile";
 				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
@@ -527,7 +547,11 @@
 			baseConfigurationReference = 5817739D1E37A10D004E28A9 /* custom.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Robert Tamayo (73Y3RTRF2D)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Robert Tamayo (73Y3RTRF2D)";
+				CODE_SIGN_STYLE = Manual;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 73Y3RTRF2D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -553,8 +577,10 @@
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.madcoatgames.newpong";
+				PRODUCT_BUNDLE_IDENTIFIER = com.madcoatgames.newpong;
 				PRODUCT_NAME = "revolve-ping-pong";
+				PROVISIONING_PROFILE = "23690ac4-b126-475e-bd60-93a13a5308b8";
+				PROVISIONING_PROFILE_SPECIFIER = "Revolve Profile 3";
 				STRIP_STYLE = "non-global";
 			};
 			name = Release;

@@ -36,7 +36,7 @@ public class BasicBrain extends Brain{
 				enemy.setHit(false);
 			}
 		}
-		enemy.y = (float) (enemy.getOriginY() - Global.height()/4f*Math.sin(enemy.getStateTime()*2f));
+		enemy.y = (float) (enemy.getOriginY() - Global.height()/4f*Math.sin(enemy.getStateTime()*1f));
 	}
 	@Override
 	public Hazard getHazard() {

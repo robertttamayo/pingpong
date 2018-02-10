@@ -70,7 +70,7 @@ public class EnemyRenderer implements Disposable{
 	}
 	private void drawAnim(SpriteBatch batch, Enemy enemy){
 		batch.draw(
-				(Texture) anim
+				(TextureRegion) anim
 				.getKeyFrame(
 						enemy
 						.getStateTime(), true)

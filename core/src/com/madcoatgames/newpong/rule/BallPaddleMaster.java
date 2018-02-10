@@ -13,7 +13,7 @@ public class BallPaddleMaster {
 	private static int numHits = 0;
 	
 	public void testCollision(Ball ball, Paddle paddle){
-		if (ball.getPush() == Global.ballDefaultPush()){
+		if (ball.getPush() == Global.ballDefaultPush() && Global.getGameMode() == Global.ARCADE){
 			numHits = 0;
 		}
 		if (ball.getVel().x > 0){
@@ -150,9 +150,14 @@ public class BallPaddleMaster {
 			MenuOperator.start();
 			System.out.println("Ball Push: " + ball.getPush());
 			System.out.println("Num Hits" + numHits);
+		} else if (Global.getGameMode() == Global.MISSIONS) {
+			numHits++;
 		}
 	}
 	public static int getNumHits(){ //should not be set externally
 		return numHits;
+	}
+	public static void resetHits() {
+		numHits = 0;
 	}
 }

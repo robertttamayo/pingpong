@@ -80,8 +80,9 @@ public class RenderMaster implements Disposable{
 		
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
-	public void renderBatchEnemies(SpriteBatch batch, Array<Enemy> enemies){
+	public void renderBatchEnemies(SpriteBatch batch, Array<Enemy> enemies, Color color){
 		batch.begin();
+		batch.setColor(color);
 		
 		for (Enemy e : enemies){
 			if (e.isDead()) {

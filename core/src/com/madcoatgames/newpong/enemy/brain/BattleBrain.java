@@ -4,6 +4,7 @@ import com.madcoatgames.newpong.enemy.BasicEnemy;
 import com.madcoatgames.newpong.enemy.Enemy;
 import com.madcoatgames.newpong.play.Bullet;
 import com.madcoatgames.newpong.play.Hazard;
+import com.madcoatgames.newpong.play.Star;
 import com.madcoatgames.newpong.util.Global;
 
 public class BattleBrain extends Brain{
@@ -22,10 +23,13 @@ public class BattleBrain extends Brain{
 	
 	public BattleBrain(Enemy enemy){
 		this.enemy = enemy;
+		this.attackPeriod = enemy.getAttackInterval();
 	}
 	@Override
 	public void update(float delta) {
-		attackTime += delta;
+		if (enemy.getStateTime() > enemy.getDelay()) {
+			attackTime += delta;
+		}
 		if (attackTime >= attackPeriod){
 			attackTime = 0f;
 			attackReady = true;
@@ -44,12 +48,13 @@ public class BattleBrain extends Brain{
 				enemy.setHit(false);
 			}
 		}
-		enemy.y = (float) (enemy.getOriginY() - Global.height()/4f*Math.sin(enemy.getStateTime()*2f));
+		enemy.y = (float) (enemy.getOriginY() - enemy.getReversed() * enemy.getTravelY() * Math.sin(enemy.getStateTime()*1f));
 	}
 	@Override
 	public Hazard getHazard() {
 		// TODO Auto-generated method stub
-		return new Bullet(enemy.x + enemy.width/2f, enemy.y + enemy.height/2f, enemy.getDir());
+//		return new Bullet(enemy.x + enemy.width/2f, enemy.y + enemy.height/2f, enemy.getDir());
+		return new Star(enemy.x + enemy.width/2f, enemy.y + enemy.height/2f, enemy.getDir());
 	}
 	@Override
 	public boolean isAttackReady() {

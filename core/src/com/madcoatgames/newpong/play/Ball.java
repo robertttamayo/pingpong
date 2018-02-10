@@ -22,6 +22,13 @@ public class Ball {
 	private float push = 720f;
 	private boolean live = false;
 	
+	private boolean isDead = false;
+	
+	public Type type = Type.NORMAL;
+	
+	public enum Type {
+		NORMAL, ELECTRIC
+	}
 	
 	public Ball(){
 		ballShape = new BallShape();
@@ -114,4 +121,11 @@ public class Ball {
 	public BallShape getBallShape(){
 		return ballShape;
 	}
+	public boolean isDead() {
+		return this.isDead;
+	}
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
+	}
+	
 }

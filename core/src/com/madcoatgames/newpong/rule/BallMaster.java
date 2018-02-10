@@ -5,8 +5,10 @@ import com.badlogic.gdx.utils.Array;
 import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.look.BallRenderer;
 import com.madcoatgames.newpong.look.BallShape;
+import com.madcoatgames.newpong.look.CloneBallRenderer;
 import com.madcoatgames.newpong.look.MenuOperator;
 import com.madcoatgames.newpong.play.Ball;
+import com.madcoatgames.newpong.play.CloneBall;
 import com.madcoatgames.newpong.play.Table;
 import com.madcoatgames.newpong.util.FilledShapeRenderable;
 import com.madcoatgames.newpong.util.Global;
@@ -17,11 +19,16 @@ import com.madcoatgames.newpong.util.Trail;
 
 public class BallMaster {
 	private Ball ball;
+	private Array<CloneBall> cloneBalls = new Array<CloneBall>();
+	private CloneBall cloneBall;
+	private CloneBallRenderer cloneBallRenderer;
 	private Table table;
 	private BallRenderer br;
 	private Color color = new Color();
 	private Color color2 = new Color();
 	private Color color3 = new Color();
+	
+	private Array<FilledShapeRenderable> filled = new Array<FilledShapeRenderable>();
 	
 	public BallMaster (Table table){
 		ball = new Ball();
@@ -30,21 +37,39 @@ public class BallMaster {
 		this.table = table;
 		
 		br = new BallRenderer(ball);
+		cloneBallRenderer = new CloneBallRenderer();
+		filled.add(br);
+		filled.add(cloneBallRenderer);
 	}
 	public void update(float delta){
+		update(delta, ball);
+		ball.update(delta);
+		if (Global.getGameMode() == Global.MISSIONS) {
+			updateCloneBalls(delta);
+		}
+	}
+	private void update(float delta, Ball ball) {
 		//y collision
-		moveY(delta);
+		moveY(delta, ball);
 		if (ball.getVel().y > 0) {
-			vertUp();
+			vertUp(ball);
 		} else {
-			vertDown();
+			vertDown(ball);
 		}
 		//x collision
-		moveX(delta);
+		moveX(delta, ball);
 		if (ball.getVel().x > 0) {
-			horRight();
+			if (ball instanceof CloneBall) {
+				horRightClone((CloneBall) ball);
+			} else {
+				horRight();
+			}
 		} else {
-			horLeft();
+			if (ball instanceof CloneBall) {
+				horLeftClone((CloneBall) ball);
+			} else {
+				horLeft();
+			}
 		}
 		ball.setVel(ball.getVel().nor().scl(ball.getPush()));
 		ball.moveBounds();
@@ -52,6 +77,9 @@ public class BallMaster {
 			br.setColor(color);
 			br.setColor2(color2);
 			br.setColor3(color3);
+			cloneBallRenderer.setColor(color);
+			cloneBallRenderer.setColor2(color2);
+			cloneBallRenderer.setColor3(color3);
 		} else {
 			br.setColor(Color.GRAY);
 		}
@@ -64,7 +92,19 @@ public class BallMaster {
 		if (ball.getTrail().size > 20) {
 			ball.getTrail().pop();
 		}
-		ball.update(delta);
+
+		
+	}
+	private void updateCloneBalls(float delta) {
+		for (int i = 0; i < cloneBalls.size; i++ ) {
+			cloneBall = cloneBalls.get(i);
+			update(delta, (Ball) cloneBall);
+			cloneBall.update(delta);
+			if (cloneBall.isDead()) {
+				cloneBalls.removeIndex(i);
+			}
+		}
+		cloneBallRenderer.setCloneBalls(cloneBalls);
 	}
 	private void resetBall(){
 		ball.setBounds(ball.getPos().x - ball.getRadius(), ball.getPos().y - ball.getRadius(),
@@ -73,7 +113,7 @@ public class BallMaster {
 		ball.setVel(Global.ballDefaultVel());
 		ball.setPush(Global.ballDefaultPush());
 	}
-	private void vertUp(){
+	private void vertUp(Ball ball){
 		float ballTop = ball.getPos().y + ball.getRadius();
 		if (ballTop > table.top()){
 			float yMod = ballTop - table.top();
@@ -90,7 +130,7 @@ public class BallMaster {
 			
 		}
 	}
-	private void vertDown(){
+	private void vertDown(Ball ball){
 		float ballBottom = ball.getPos().y - ball.getRadius();
 		if (ballBottom < table.bottom()){
 			float yMod = table.bottom() - ballBottom;
@@ -106,7 +146,7 @@ public class BallMaster {
 			
 		}
 	}
-	private void moveY(float delta){
+	private void moveY(float delta, Ball ball){
 		ball.getPos().y += ball.getVel().y * delta;
 	}
 	private void horRight(){
@@ -154,6 +194,29 @@ public class BallMaster {
 			}
 		}
 	}
+	private void horRightClone(CloneBall ball){
+		float ballRight = ball.getPos().x + ball.getRadius();
+		if (ballRight > table.right()) {
+//			float xMod = ballRight - table.right();
+//			ball.getPos().x -= xMod * 2; //1 xMod would be point of contact, btw
+//			ball.getVel().x *= -1;
+			ball.setLive(false); 
+			ball.setDead(true);
+
+		}
+	}
+	private void horLeftClone(CloneBall ball){
+		float ballLeft = ball.getPos().x - ball.getRadius();
+		if (ballLeft < table.left()){
+//			float xMod = table.left() - ballLeft;
+//			ball.getPos().x += xMod * 2;
+//			ball.getVel().x *= -1;
+			
+			ball.setLive(false);
+			ball.setDead(true);
+			
+		}
+	}
 	private void checkGame(){
 		if (BallPaddleMaster.getNumHits() == 0) {
 			return;
@@ -162,13 +225,16 @@ public class BallMaster {
 			System.out.println("Score: " + BallPaddleMaster.getNumHits());
 			MenuOperator.failArcade(BallPaddleMaster.getNumHits());
 			resetBall();
+		} else if (Global.getGameMode() == Global.MISSIONS) {
+			BallPaddleMaster.resetHits();
 		}
 	}
-	private void moveX(float delta){
+	private void moveX(float delta, Ball ball){
 		ball.getPos().x += ball.getVel().x * delta;
 	}
-	public FilledShapeRenderable getFilled(){
-		return br;
+	public Array<FilledShapeRenderable> getFilled(){
+		
+		return filled;
 	}
 	public Ball getBall(){
 		return ball;
@@ -196,5 +262,11 @@ public class BallMaster {
 	}
 	public TextureRenderable getTextureRenderable(){
 		return (TextureRenderable) br;
+	}
+	public void addCloneBall(CloneBall cloneBall) {
+		cloneBalls.add(cloneBall);
+	}
+	public Array<CloneBall> getCloneBalls(){
+		return this.cloneBalls;
 	}
 }
