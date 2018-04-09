@@ -8,6 +8,7 @@ import com.madcoatgames.newpong.look.BallShape;
 import com.madcoatgames.newpong.look.CloneBallRenderer;
 import com.madcoatgames.newpong.look.MenuOperator;
 import com.madcoatgames.newpong.play.Ball;
+import com.madcoatgames.newpong.play.Ball.Type;
 import com.madcoatgames.newpong.play.CloneBall;
 import com.madcoatgames.newpong.play.Table;
 import com.madcoatgames.newpong.util.FilledShapeRenderable;
@@ -121,13 +122,15 @@ public class BallMaster {
 			ball.getVel().y *= -1;
 			//sound
 			SoundMaster.paddleq = true;
-			
-			if (ball.getVel().x > 0){
-				BallShape.addLeft();
-			} else {
-				BallShape.addRight();
+			if (ball.type == Type.NORMAL) {
+				if (ball.getVel().x > 0){
+					BallShape.addLeft();
+				} else {
+					BallShape.addRight();
+				}
+			} else if (ball.type == Type.CLONE) {
+				ball.verticalCollisionCount++;
 			}
-			
 		}
 	}
 	private void vertDown(Ball ball){
@@ -138,10 +141,14 @@ public class BallMaster {
 			ball.getVel().y *= -1;
 			SoundMaster.paddleq = true;
 			
-			if (ball.getVel().x > 0){
-				BallShape.addRight();
-			} else {
-				BallShape.addLeft();
+			if (ball.type == Type.NORMAL) {
+				if (ball.getVel().x > 0){
+					BallShape.addRight();
+				} else {
+					BallShape.addLeft();
+				}
+			} else if (ball.type == Type.CLONE) {
+				ball.verticalCollisionCount++;
 			}
 			
 		}

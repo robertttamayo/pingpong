@@ -1,10 +1,12 @@
 package com.madcoatgames.newpong.enemy;
 
+import com.badlogic.gdx.utils.Array;
 import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.enemy.brain.BasicBrain;
 import com.madcoatgames.newpong.enemy.brain.BattleBrain;
 import com.madcoatgames.newpong.enemy.brain.Brain;
 import com.madcoatgames.newpong.play.Ball;
+import com.madcoatgames.newpong.play.Hazard;
 import com.madcoatgames.newpong.util.Global;
 
 public class BasicShootingEnemy extends Enemy implements FollowsBall{
@@ -15,6 +17,11 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	
 	private final int type = EnemyType.UFO_MEDIUM;
 	private boolean dead = false;
+	
+	public boolean isDying = false;
+	public float dieTime = 0f;
+	public float diePeriod = 1f;
+	
 	private boolean isHit = false;
 	
 	public boolean electricuted;
@@ -36,6 +43,8 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	private int yDir = 1;
 	
 	private float attackInterval = 5f;
+	
+	private boolean directionChangeDisabled = false;
 	
 	public BasicShootingEnemy(int maxHealth){
 		super(maxHealth);
@@ -123,10 +132,12 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 
 	@Override
 	public void followBall(Ball ball) {
-		if (ball.getPos().x > x + width/2f){
-			dir = RIGHT; 
-		} else {
-			dir = LEFT;
+		if (!directionChangeDisabled) {
+			if (ball.getPos().x > x + width/2f){
+				dir = RIGHT; 
+			} else {
+				dir = LEFT;
+			}
 		}
 	}
 
@@ -248,5 +259,14 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 			setElectricuted(true);
 		}
 	}
-	
+	@Override
+	public void disableDirectionChange() {
+		this.directionChangeDisabled = true;
+	}
+	@Override
+	public void enableDirectionChange() {
+		this.directionChangeDisabled = false;
+		
+	}
+
 }

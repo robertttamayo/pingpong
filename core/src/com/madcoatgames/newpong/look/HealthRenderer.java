@@ -19,7 +19,7 @@ public class HealthRenderer {
 	}
 	
 	public void draw(ShapeRenderer shaper, TriColorChanger tcc, int health, int maxHealth){
-		float padding = 8f;
+		float padding = 4f;
 		float width = (frame.width - padding*4f)/(float)maxHealth;
 		
 		shaper.begin(ShapeType.Filled);

@@ -136,6 +136,7 @@ public class LogicMaster {
 		if (!ebm.getLightningManager().getActive()) {
 			filled.addAll(bm.getFilled());
 		}
+		filled.addAll(em.getEnemyRazzles());
 		filled.addAll(pm.getFilled());
 		
 	}

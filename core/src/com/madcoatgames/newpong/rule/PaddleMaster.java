@@ -51,8 +51,13 @@ public class PaddleMaster {
 	}
 
 	private void initPaddleDimensions() {
-		rPaddle.setSize(150, 180);
-		lPaddle.setSize(150, 180);
+		if (Global.getGameMode() == Global.MISSIONS) {
+			rPaddle.setSize(135, 160);
+			lPaddle.setSize(135, 160);
+		} else {
+			rPaddle.setSize(150, 180);
+			lPaddle.setSize(150, 180);
+		}
 	}
 
 	private void initPaddlePosition() {

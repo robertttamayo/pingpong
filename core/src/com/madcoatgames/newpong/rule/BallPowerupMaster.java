@@ -25,7 +25,7 @@ public class BallPowerupMaster {
 	}
 	
 	public enum Type {
-		ELECTRICITY, DUPLICITY
+		ELECTRICITY, DUPLICITY, BOMB
 	}
 	public BallPowerupMaster(BallPaddleMaster ballPaddleMaster, BallMaster ballMaster, EnemyBallMaster enemyBallMaster) {
 		this.ballPaddleMaster = ballPaddleMaster;
@@ -69,7 +69,7 @@ public class BallPowerupMaster {
 				}
 				break;
 			case LOW:
-				if (count >= 10) { // 10
+				if (count >= 7) { // 10
 					powerLevel = PowerLevel.SUPER;
 					actionSuper(delta);
 				} else {
@@ -94,8 +94,23 @@ public class BallPowerupMaster {
 		switch (type) {
 		case DUPLICITY:
 			CloneBall cloneBall = new CloneBall();
-			cloneBall.getVel().x = ballMaster.getBall().getVel().x;
-			cloneBall.getVel().y = -1f * ball.getVel().y;
+//			cloneBall.getVel().x = ballMaster.getBall().getVel().x;
+//			cloneBall.getVel().y = -1f * ball.getVel().y;
+			cloneBall.getVel().x = ball.getVel().x;
+			cloneBall.getVel().y = ball.getVel().y;
+			if (ball.getVel().y >= 0) {
+				if (ball.getVel().x >= 0) {
+					cloneBall.getVel().setAngle(ball.getVel().angle() - 30f);
+				} else {
+					cloneBall.getVel().setAngle(ball.getVel().angle() + 30f);
+				}
+			} else {
+				if (ball.getVel().x >= 0) {
+					cloneBall.getVel().setAngle(ball.getVel().angle() + 30f);
+				} else {
+					cloneBall.getVel().setAngle(ball.getVel().angle() - 30f);
+				}
+			}
 			cloneBall.setPos(new Vector2(ball.getPos().x, ball.getPos().y));
 			cloneBall.setBounds(ball.getBounds().x, ball.getBounds().y, ball.getBounds().width, ball.getBounds().height);
 			cloneBall.setPush(ball.getPush());

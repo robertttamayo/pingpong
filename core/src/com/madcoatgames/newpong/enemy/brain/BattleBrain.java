@@ -20,6 +20,9 @@ public class BattleBrain extends Brain{
 	private float attackTime = 0f;
 	private float attackPeriod = 2f;
 	private boolean attackReady = false;
+	private float attackChargeTime = 0f;
+	private float attackChargePeriod = 1f;
+	private boolean attackCharging = false;
 	
 	public BattleBrain(Enemy enemy){
 		this.enemy = enemy;
@@ -27,12 +30,20 @@ public class BattleBrain extends Brain{
 	}
 	@Override
 	public void update(float delta) {
-		if (enemy.getStateTime() > enemy.getDelay()) {
+		if (!attackCharging && enemy.getStateTime() > enemy.getDelay()) {
 			attackTime += delta;
+		}
+		if (attackCharging) {
+			attackChargeTime += delta;
+			if (attackChargeTime >= attackChargePeriod) {
+				attackChargeTime = 0f;
+				attackCharging = false;
+				attackReady = true;
+			}
 		}
 		if (attackTime >= attackPeriod){
 			attackTime = 0f;
-			attackReady = true;
+			attackCharging = true;
 		}
 		if (enemy.isDead()) {
 			deadTime += delta;

@@ -28,6 +28,8 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 	private float stateTime = 0;
 	private float originY;
 	
+	private boolean directionChangeDisabled = false;
+	
 	public BasicEnemy(int maxHealth){
 		super(maxHealth);
 		health = maxHealth;
@@ -107,10 +109,12 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 
 	@Override
 	public void followBall(Ball ball) {
-		if (ball.getPos().x > x + width/2f){
-			dir = RIGHT; 
-		} else {
-			dir = LEFT;
+		if (!directionChangeDisabled) {
+			if (ball.getPos().x > x + width/2f){
+				dir = RIGHT; 
+			} else {
+				dir = LEFT;
+			}
 		}
 	}
 
@@ -230,6 +234,18 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 
 	@Override
 	public void setElectricContact(boolean electricContact) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disableDirectionChange() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enableDirectionChange() {
 		// TODO Auto-generated method stub
 		
 	}

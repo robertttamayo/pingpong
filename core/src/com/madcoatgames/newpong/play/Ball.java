@@ -25,9 +25,10 @@ public class Ball {
 	private boolean isDead = false;
 	
 	public Type type = Type.NORMAL;
+	public int verticalCollisionCount = 0;
 	
 	public enum Type {
-		NORMAL, ELECTRIC
+		NORMAL, ELECTRIC, CLONE
 	}
 	
 	public Ball(){

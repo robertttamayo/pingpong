@@ -1,7 +1,9 @@
 package com.madcoatgames.newpong.enemy;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.madcoatgames.newpong.enemy.brain.Brain;
+import com.madcoatgames.newpong.play.Hazard;
  
 public abstract class Enemy extends Rectangle{
 	int RIGHT = 1;
@@ -55,6 +57,10 @@ public abstract class Enemy extends Rectangle{
 	public abstract boolean getElectricContact();
 	public abstract void setElectricContact(boolean electricContact);
 	
+	public abstract void disableDirectionChange();
+	public abstract void enableDirectionChange();
+
+
 	protected Enemy(int maxHealth){
 		this.maxHealth = maxHealth;
 	}
