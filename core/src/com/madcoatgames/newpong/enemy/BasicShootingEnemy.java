@@ -67,6 +67,7 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		this.travelY = travelY;
 		this.delay = delay;
 		this.yDir = yDir;
+		this.attackInterval = interval;
 	}
 
 	@Override

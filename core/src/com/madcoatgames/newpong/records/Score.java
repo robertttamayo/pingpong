@@ -5,7 +5,8 @@ public class Score implements Comparable<Score>{
 	private String name;
 	
 	public Score(){
-		points = 0; name = "default";
+		points = 0; 
+		name = "default";
 	}
 	public Score(int points, String name){
 		this.points = points;

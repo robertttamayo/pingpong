@@ -4,11 +4,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.madcoatgames.newpong.play.Ball;
 import com.madcoatgames.newpong.play.CloneBall;
+import com.madcoatgames.newpong.powerups.bombacity.BombMaster;
 import com.madcoatgames.newpong.powerups.electricity.LightningManager;
 import com.madcoatgames.newpong.util.Global;
 
 public class BallPowerupMaster {
-	private LightningManager lightningManager;
 	
 	private int previousCount = 0;
 	private int count = 0;
@@ -16,6 +16,8 @@ public class BallPowerupMaster {
 	private BallPaddleMaster ballPaddleMaster;
 	private BallMaster ballMaster;
 	private EnemyBallMaster enemyBallMaster;
+	private BombMaster bombMaster;
+	private LightningManager lightningManager;
 	
 	public Type type = Type.ELECTRICITY;
 	public PowerLevel powerLevel = PowerLevel.UNCHARGED;
@@ -32,6 +34,7 @@ public class BallPowerupMaster {
 		this.ballMaster = ballMaster;
 		this.enemyBallMaster = enemyBallMaster;
 		this.lightningManager = enemyBallMaster.getLightningManager();
+		this.bombMaster = enemyBallMaster.getBombMaster();
 	}
 	
 	public void update(float delta) {
@@ -52,24 +55,31 @@ public class BallPowerupMaster {
 		powerLevel = PowerLevel.UNCHARGED;
 		lightningManager.setActive(false);
 		lightningManager.orbs.clear();
+		bombMaster.setActive(false);
 	}
 	
 	public void action(float delta) {
 		switch (powerLevel) {
 			case UNCHARGED:
-				if (count >= 3) {
-					float random = (float)Math.random();
-					if (random > .5f) {
+				if (count >= 3) { // 3
+					int random = (int) Math.floor(Math.random() * 3f);
+					switch (random) {
+					case 0: 
 						type = Type.DUPLICITY;
-					} else {
+						break;
+					case 1: 
 						type = Type.ELECTRICITY;
+						break;
+					case 2: 
+						type = Type.BOMB;
+						break;
 					}
 					powerLevel = PowerLevel.LOW;
 					actionLow(delta);
 				}
 				break;
 			case LOW:
-				if (count >= 7) { // 10
+				if (count >= 7) { // 7
 					powerLevel = PowerLevel.SUPER;
 					actionSuper(delta);
 				} else {
@@ -77,7 +87,7 @@ public class BallPowerupMaster {
 				}
 				break;
 			case SUPER:
-				if (count >= 12) { // 22
+				if (count >= 12) { // 12
 					powerLevel = PowerLevel.ULTRAMEGA;
 					actionUltraMega(delta);
 				} else {
@@ -123,15 +133,18 @@ public class BallPowerupMaster {
 			LightningManager.boltCount = 1;
 			Global.electricutedPeriod = 1.2f;
 			break;
+		case BOMB:
+			bombMaster.setActive(true);
+			bombMaster.statusLevel = 1;
+			bombMaster.update(delta);
+			break;
 		}
 	}
 	public void actionSuper(float delta) {
 		switch (type) {
 		case DUPLICITY:
-			System.out.println("DUPLICITY IS CHARGED TO SUPER LEVEL!");
-			
+
 			Ball ball = ballMaster.getBall();
-			System.out.println("angle: " + ball.getVel().angle());
 			CloneBall cloneBall = new CloneBall();
 			CloneBall cloneBall2 = new CloneBall();
 			cloneBall.setVel(new Vector2(ball.getVel().x, ball.getVel().y));
@@ -147,7 +160,6 @@ public class BallPowerupMaster {
 				}
 				cloneBall.getVel().setAngle(angle1);
 				cloneBall2.getVel().setAngle(angle2);
-				System.out.println("Angle, Angle1, Angle2: " + angle + ", " + angle1 + ", " + angle2);
 			}
 			if (angle > 150 && angle <= 210) {
 				// create 1 ball above and 1 ball below
@@ -156,7 +168,6 @@ public class BallPowerupMaster {
 
 				cloneBall.getVel().setAngle(angle1);
 				cloneBall2.getVel().setAngle(angle2);
-				System.out.println("Angle, Angle1, Angle2: " + angle + ", " + angle1 + ", " + angle2);
 			}
 			if (angle > 210 && angle <= 270) {
 				// create 2 balls above
@@ -165,7 +176,6 @@ public class BallPowerupMaster {
 
 				cloneBall.getVel().setAngle(angle1);
 				cloneBall2.getVel().setAngle(angle2);
-				System.out.println("Angle, Angle1, Angle2: " + angle + ", " + angle1 + ", " + angle2);
 			}
 			// check right side
 			if (angle > 270 && angle <= 330) {
@@ -175,7 +185,6 @@ public class BallPowerupMaster {
 
 				cloneBall.getVel().setAngle(angle1);
 				cloneBall2.getVel().setAngle(angle2);
-				System.out.println("Angle, Angle1, Angle2: " + angle + ", " + angle1 + ", " + angle2);
 			}
 			if ( (angle > 330 && angle <= 360) || (angle <= 30) ) {
 				// create 2 balls below
@@ -184,7 +193,6 @@ public class BallPowerupMaster {
 
 				cloneBall.getVel().setAngle(angle1);
 				cloneBall2.getVel().setAngle(angle2);
-				System.out.println("Angle, Angle1, Angle2: " + angle + ", " + angle1 + ", " + angle2);
 			}
 			if (angle > 30 && angle <= 90) {
 				// create 2 balls below
@@ -193,7 +201,6 @@ public class BallPowerupMaster {
 
 				cloneBall.getVel().setAngle(angle1);
 				cloneBall2.getVel().setAngle(angle2);
-				System.out.println("Angle, Angle1, Angle2: " + angle + ", " + angle1 + ", " + angle2);
 			}
 			cloneBall.setPos(new Vector2(ball.getPos().x, ball.getPos().y));
 			cloneBall.setBounds(ball.getBounds().x, ball.getBounds().y, ball.getBounds().width, ball.getBounds().height);
@@ -205,8 +212,6 @@ public class BallPowerupMaster {
 			cloneBall2.setLive(true);
 			ballMaster.addCloneBall(cloneBall);
 			ballMaster.addCloneBall(cloneBall2);
-//			System.out.println("Clone Ball vel x: " + cloneBall.getVel().x);
-//			System.out.println("Clone Ball vel y: " + cloneBall.getVel().y);
 			break;
 		case ELECTRICITY:
 			lightningManager.setActive(true);
@@ -214,15 +219,18 @@ public class BallPowerupMaster {
 			LightningManager.boltCount = 2;
 			Global.electricutedPeriod = 1f;
 			break;
+		case BOMB:
+			bombMaster.setActive(true);
+			bombMaster.statusLevel = 2;
+			bombMaster.update(delta);
+			break;
 		}
 	}
 	public void actionUltraMega(float delta) {
 		switch (type) {
 		case DUPLICITY:
-			System.out.println("DUPLICITY IS CHARGED TO SUPER LEVEL!");
 			
 			Ball ball = ballMaster.getBall();
-			System.out.println("angle: " + ball.getVel().angle());
 			
 			float angle = ball.getVel().angle();
 			float _angle = angle;
@@ -251,15 +259,18 @@ public class BallPowerupMaster {
 				cloneBall.setLive(true);
 				
 				ballMaster.addCloneBall(cloneBall);
-				System.out.println("_angle" + i + ": " + _angle);
 			}
-			System.out.println("angle: " + angle);
 			break;
 		case ELECTRICITY:
 			lightningManager.setActive(true);
 			lightningManager.createHeroNormal();
 			LightningManager.boltCount = 5;
 			Global.electricutedPeriod = .8f;
+			break;
+		case BOMB:
+			bombMaster.setActive(true);
+			bombMaster.statusLevel = 3;
+			bombMaster.update(delta);
 			break;
 		}
 	}

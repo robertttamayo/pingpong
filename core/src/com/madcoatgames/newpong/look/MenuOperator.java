@@ -31,8 +31,8 @@ public class MenuOperator {
 	public static void failMissions(int points){
 		firstGameOver = true;
 		type = GAMEOVER;
-//		Score score = new Score(points, "name");
-//		SaveDataCache.addScore(score);
+		Score score = new Score(points, "name");
+		SaveDataCache.addEnemyScore(score);
 	}
 	public static void start(){
 		type = PLAY;

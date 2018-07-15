@@ -8,6 +8,7 @@ import com.madcoatgames.newpong.look.HUDRenderer;
 import com.madcoatgames.newpong.look.MenuOperator;
 import com.madcoatgames.newpong.play.Button;
 import com.madcoatgames.newpong.play.Table;
+import com.madcoatgames.newpong.powerups.bombacity.BombMaster;
 import com.madcoatgames.newpong.powerups.electricity.LightningManager;
 import com.madcoatgames.newpong.util.FilledShapeRenderable;
 import com.madcoatgames.newpong.util.Global;
@@ -106,10 +107,14 @@ public class LogicMaster {
 			updateArcade(delta, hr, batch);
 			return;
 		}
+		if (MenuOperator.countdownEnabled) {
+			updateCountdownMode(delta, hr, batch);
+			return;
+		}
 		bm.update(delta);
 		pm.update(tcc.c3, delta);
 		bpm.testCollisions(bm.getBall(), pm.getPaddles());
-		ballPowerupMaster.update(delta);;
+		ballPowerupMaster.update(delta);
 		
 		starBg.update(delta);
 		
@@ -119,6 +124,7 @@ public class LogicMaster {
 		em.update(delta);
 		ebm.update(bm.getBall(), em.getEnemies());
 		ebm.testCloneBallCollisions(bm.getCloneBalls(), em.getEnemies());
+		ebm.testBombCollisions(ebm.getBombMaster().getBombs(), em.getEnemies());
 		battleMaster.update(delta);
 		battleMaster.testCollision(em.getHazards(), pm.getPaddles());
 		if (battleMaster.isPlayerLose()){
@@ -167,7 +173,8 @@ public class LogicMaster {
 	}
 	private void reset(){
 		battleMaster.reset();
-		MenuOperator.failMissions(0);
+		MenuOperator.failMissions(EnemyMaster.enemiesDefeated);
+		EnemyMaster.enemiesDefeated = 0;
 	}
 	public int getHealth(){
 		return battleMaster.getPlayerHealth();
@@ -190,6 +197,13 @@ public class LogicMaster {
 	public LightningManager getLightningManager() {
 		if (Global.getGameMode() == Global.MISSIONS) {
 			return ebm.getLightningManager();
+		} else {
+			return null;
+		}
+	}
+	public BombMaster getBombMaster() {
+		if (Global.getGameMode() == Global.MISSIONS) {
+			return ebm.getBombMaster();
 		} else {
 			return null;
 		}

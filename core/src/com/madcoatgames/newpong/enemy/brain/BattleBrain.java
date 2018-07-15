@@ -21,7 +21,8 @@ public class BattleBrain extends Brain{
 	private float attackPeriod = 2f;
 	private boolean attackReady = false;
 	private float attackChargeTime = 0f;
-	private float attackChargePeriod = 1f;
+//	private float attackChargePeriod = 1f;
+	private float attackChargePeriod = 0f;
 	private boolean attackCharging = false;
 	
 	public BattleBrain(Enemy enemy){
@@ -44,6 +45,7 @@ public class BattleBrain extends Brain{
 		if (attackTime >= attackPeriod){
 			attackTime = 0f;
 			attackCharging = true;
+//			enemy.disableDirectionChange();
 		}
 		if (enemy.isDead()) {
 			deadTime += delta;

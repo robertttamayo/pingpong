@@ -41,6 +41,7 @@ public class GameMaster extends ScreenMaster{
 	private StarBackgroundMaster starBg;
 	
 	private boolean renderTextures = false;
+	private int score = 0;
 	
 	public GameMaster (Game game, MusicMaster mm){
 		this.game = game;
@@ -113,13 +114,17 @@ public class GameMaster extends ScreenMaster{
 			rm.renderBatchEnemies(batch, logic.getEnemyMaster().getEnemies(), logic.getTcc().c1);
 			rm.renderHazards(shaper, logic.getEnemyMaster().getHazards());
 			rm.renderHealth(shaper, logic.getTcc(), logic.getHealth(), logic.getMaxHealth(), logic.isHit());
+			// lightning
 			logic.getLightningManager().render(shaper, delta);
 			logic.getLightningManager().renderTargetCircle(logic.getEnemyMaster().getEnemies(), shaper, delta);
+			// bombs
+			logic.getBombMaster().render(shaper);
 		}
 		
 		sm.update();
 		
-		hr.draw(logic.getTcc(), batch, shaper, BallPaddleMaster.getNumHits(), logic.isCountdownInProgress());
+		score = Global.getGameMode() == Global.ARCADE ? BallPaddleMaster.getNumHits() : EnemyMaster.enemiesDefeated;
+		hr.draw(logic.getTcc(), batch, shaper, score, logic.isCountdownInProgress());
 		
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 		

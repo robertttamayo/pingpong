@@ -7,6 +7,8 @@ import com.madcoatgames.newpong.enemy.Enemy;
 import com.madcoatgames.newpong.enemy.FollowsBall;
 import com.madcoatgames.newpong.play.Ball;
 import com.madcoatgames.newpong.play.CloneBall;
+import com.madcoatgames.newpong.powerups.bombacity.Bomb;
+import com.madcoatgames.newpong.powerups.bombacity.BombMaster;
 import com.madcoatgames.newpong.powerups.electricity.LightningManager;
 import com.madcoatgames.newpong.util.BallUpdateable;
 import com.madcoatgames.newpong.util.EnemyUpdateable;
@@ -16,9 +18,11 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 	private Ball ball;
 	
 	public LightningManager lightningManager;
+	private BombMaster bombMaster;
 	
 	public EnemyBallMaster(Ball ball) {
 		lightningManager = new LightningManager(ball);
+		bombMaster = new BombMaster(ball);
 	}
 	
 	public void update(Ball ball, Array<Enemy> enemies){
@@ -30,6 +34,9 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 		}
 		if (lightningManager.getActive()) {
 			lightningManager.update(enemies, Gdx.graphics.getDeltaTime());
+		}
+		if (bombMaster.isActive()) {
+			bombMaster.update(Gdx.graphics.getDeltaTime());
 		}
 	}
 	public void testCollision(Ball ball, Enemy enemy){
@@ -45,6 +52,19 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 		}
 		
 	}
+	private void testBombCollision(Bomb bomb, Enemy enemy) {
+		if (!bomb.isLive() || enemy.isDead() || enemy.isHit()){
+			return;
+		}
+		if (bomb.getBounds().overlaps(enemy)){
+			if (!enemy.isHit()){
+				enemy.damage(bombMaster.statusLevel);
+			}
+			enemy.setHit(true);
+			bomb.setLive(false);
+			SoundMaster.acquireq = true;
+		}
+	}
 	public void testCloneBallCollisions(Array<CloneBall> cloneBalls, Array<Enemy> enemies) {
 		for (int i = 0; i < cloneBalls.size; i++) {
 			for (int j = 0; j < enemies.size; j++) {
@@ -53,7 +73,15 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 		}
 	}
 
-	
+	public void testBombCollisions(Array<Bomb> bombs, Array<Enemy> enemies) {
+		int sizeBombs = bombs.size;
+		for (int b = 0; b < sizeBombs; b++) {
+			int sizeEnemies = enemies.size;
+			for (int e = 0; e < sizeEnemies; e++) {
+				testBombCollision(bombs.get(b), enemies.get(e)); 
+			}
+		}
+	}
 
 	@Override
 	public void setUpdateableEnemies(Array<Enemy> enemies) {
@@ -69,4 +97,7 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 		return this.lightningManager;
 	}
 
+	public BombMaster getBombMaster() {
+		return this.bombMaster;
+	}
 }

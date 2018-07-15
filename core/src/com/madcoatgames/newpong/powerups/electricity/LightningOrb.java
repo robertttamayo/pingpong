@@ -50,7 +50,7 @@ public class LightningOrb {
 		width = 8;
 		height = 32;
 		
-		bounds = new Rectangle(x, y, 360, 360);
+		bounds = new Rectangle(x, y, 420, 420);
 		
 		a.set(x, y);
 		b.set(a);

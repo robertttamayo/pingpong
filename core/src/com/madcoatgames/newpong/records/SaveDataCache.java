@@ -11,6 +11,8 @@ public class SaveDataCache {
 		scores = new Array<Score>();
 		scores.add(new Score(0, "default value"));
 		scores.addAll(SaveDataProcessor.generateScores());
+		
+//		enemyScores = new Array<Score>();
 	}
 	
 	public static void addScore(Score score){
@@ -20,6 +22,14 @@ public class SaveDataCache {
 			highestScoreThisGame = currentPoints;
 		}
 		scores.sort();
+	}
+	public static void addEnemyScore(Score score){
+//		enemyScores.add(score);
+//		currentPoints = score.getPoints();
+//		if (currentPoints >= highestScoreThisGame){
+//			highestScoreThisGame = currentPoints;
+//		}
+//		scores.sort();
 	}
 	public static Score createScore(int score, String name){
 		return new Score(score, name);
