@@ -249,4 +249,10 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public float getTravelX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

@@ -62,6 +62,7 @@ public class BattleBrain extends Brain{
 			}
 		}
 		enemy.y = (float) (enemy.getOriginY() - enemy.getReversed() * enemy.getTravelY() * Math.sin(enemy.getStateTime()*1f));
+		enemy.x = (float) (enemy.getOriginX() - enemy.getReversed() * enemy.getTravelX() * Math.sin(enemy.getStateTime()*.5f));
 	}
 	@Override
 	public Hazard getHazard() {

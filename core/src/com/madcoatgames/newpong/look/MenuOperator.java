@@ -1,7 +1,9 @@
 package com.madcoatgames.newpong.look;
 
+import com.madcoatgames.newpong.records.SaveData;
 import com.madcoatgames.newpong.records.SaveDataCache;
 import com.madcoatgames.newpong.records.Score;
+import com.madcoatgames.newpong.util.Global;
 
 public class MenuOperator {
 	public static final int GAMEOVER = 0;
@@ -25,14 +27,14 @@ public class MenuOperator {
 		firstGameOver = true;
 		type = GAMEOVER;
 		countdownEnabled = true;
-		Score score = new Score(points, "name");
+		Score score = new Score(points, "name", Global.ARCADE);
 		SaveDataCache.addScore(score);
 	}
 	public static void failMissions(int points){
 		firstGameOver = true;
 		type = GAMEOVER;
-		Score score = new Score(points, "name");
-		SaveDataCache.addEnemyScore(score);
+		Score score = new Score(points, "name", Global.MISSIONS);
+		SaveDataCache.addScore(score);
 	}
 	public static void start(){
 		type = PLAY;

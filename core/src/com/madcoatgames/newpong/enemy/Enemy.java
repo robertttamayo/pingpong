@@ -45,6 +45,7 @@ public abstract class Enemy extends Rectangle{
 	public abstract float getOriginX();
 	
 	public abstract float getTravelY();
+	public abstract float getTravelX();
 	public abstract int getReversed();
 	public abstract float getDelay();
 	public abstract float getAttackInterval();

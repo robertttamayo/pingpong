@@ -159,9 +159,9 @@ public class HUDRenderer implements Disposable{
 		fontCache.getFont().getData().setScale(1);
 		fontCache.setColor(tcc.c2);
 		
-		message = "Your score: " + String.valueOf(SaveDataCache.getCurrentPoints());
-		message += "\nBest score so far: " + SaveDataCache.getHighestScoreThisGame();
-		message += "\nRecord: " + SaveDataCache.getHighestString();
+		message = "Your score: " + String.valueOf(SaveDataCache.getCurrentPoints(Global.getGameMode()));
+		message += "\nBest score so far: " + SaveDataCache.getHighestScoreThisGame(Global.getGameMode());
+		message += "\nRecord: " + SaveDataCache.getHighestString(Global.getGameMode());
 //		fontCache.addText("Your score: " + String.valueOf(SaveDataCache.getCurrentPoints()), 350, 350);
 //		fontCache.addText("Best score so far: " + SaveDataCache.getHighestScoreThisGame(), 350, 300);
 //		fontCache.addText("Record: " + SaveDataCache.getHighestString(), 350, 250);

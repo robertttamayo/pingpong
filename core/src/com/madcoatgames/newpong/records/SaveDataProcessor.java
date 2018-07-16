@@ -21,6 +21,7 @@ public class SaveDataProcessor {
 			return;
 		}
 		Array<Score> scores = SaveDataCache.getScores();
+		Array<Score> enemyScores = SaveDataCache.getEnemyScores();
 		FileHandle file;
 		file = Gdx.files.local(NewPong.jsonFile + ".txt");
 		file.delete();
@@ -35,8 +36,31 @@ public class SaveDataProcessor {
 			file = new FileHandle(maker);
 		}
 		
+		Array<Score> badScores = new Array<Score>();
+		for (Score score : scores) {
+			if (score.getName().equals("default value")) {
+				badScores.add(score);
+			} else if (score.getPoints() == 0) {
+				badScores.add(score);
+			}
+		}
+		scores.removeAll(badScores, true);
+		badScores.clear();
+		
 		saveData.scores.addAll(scores);
 		saveData.scores.sort();
+		
+		for (Score score : enemyScores) {
+			if (score.getName().equals("default value")) {
+				badScores.add(score);
+			} else if (score.getPoints() == 0) {
+				badScores.add(score);
+			}
+		}
+		enemyScores.removeAll(badScores, true);
+
+		saveData.enemyScores.addAll(enemyScores);
+		saveData.enemyScores.sort();
 		
 		Json json = new Json();
 		String saveScores = json.toJson(saveData);
@@ -49,10 +73,11 @@ public class SaveDataProcessor {
 		System.out.println(file.path());
 //		*/ // comment out this line for non-html builds
 	}
-	public static Array<Score> generateScores(){
+	public static SaveData generateScores(){
 		boolean isDesktop = (Gdx.app.getType() == ApplicationType.Desktop);
 
 		Array<Score> scores = new Array<Score>();
+		Array<Score> enemyScores = new Array<Score>();
 //		/* // comment out this line for non-html builds
 		SaveData saveData;
 		
@@ -83,29 +108,13 @@ public class SaveDataProcessor {
 		} else {
 			scores = new Array<Score>();
 		}
-		/*
-		try {
-			saveData = json.fromJson(
-					SaveData.class
-					, file);
-			if (saveData.scores != null) {
-				scores = saveData.scores;
-			} else {
-				scores = new Array<Score>();
-			}
-		} catch (SerializationException e){
-			//saveData = new SaveData();
-			//json.toJson(saveData, file);
-			//SaveData saveData2 = json.fromJson(SaveData.class, file);
-			//scores = saveData2.scores;
-			//scores.add(new Score(100, "testscore"));
-			//scores = new Array<Score>();
-			System.out.println("bad file");
-			scores = new Array<Score>();
+		if (saveData.enemyScores != null) {
+			enemyScores = saveData.enemyScores;
+		} else {
+			enemyScores = new Array<Score>();
 		}
-		*/
-		
-		return scores;
+
+		return saveData;
 	}
 
 }

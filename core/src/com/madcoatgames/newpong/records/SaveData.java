@@ -6,7 +6,6 @@ public class SaveData {
 	public SaveData(){}
 	
 	Array<Score> scores = new Array<Score>();
-	
-
+	Array<Score> enemyScores = new Array<Score>();
 }
 

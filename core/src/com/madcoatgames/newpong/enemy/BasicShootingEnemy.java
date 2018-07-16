@@ -30,6 +30,7 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	public boolean electricContact = false;
 	
 	private float travelY = Global.height()/3f;
+	private float travelX = Global.width()/20f;
 	
 	/**
 	 * 
@@ -38,6 +39,7 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	
 	private float stateTime = 0;
 	private float originY;
+	private float originX;
 	
 	private float delay = 0;
 	private int yDir = 1;
@@ -56,6 +58,9 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		y = Global.centerHeight() - height/2f;
 		
 		setOriginY(y);
+		setOriginX(x);
+		
+		travelX *= Math.random() > .5f ? 1 : -1;
 		
 		brain = new BattleBrain(this);
 	}
@@ -64,6 +69,7 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		this.x = x;
 		this.y = y;
 		setOriginY(y);
+		setOriginX(x);
 		this.travelY = travelY;
 		this.delay = delay;
 		this.yDir = yDir;
@@ -98,6 +104,10 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 
 	private void setOriginY(float originY) {
 		this.originY = originY;
+	}
+	
+	private void setOriginX(float originX) {
+		this.originX = originX;
 	}
 
 	@Override
@@ -186,7 +196,7 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	@Override
 	public float getOriginX() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.originX;
 	}
 
 	@Override
@@ -268,6 +278,10 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	public void enableDirectionChange() {
 		this.directionChangeDisabled = false;
 		
+	}
+	@Override
+	public float getTravelX() {
+		return this.travelX;
 	}
 
 }
