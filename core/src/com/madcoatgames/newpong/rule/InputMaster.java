@@ -116,8 +116,23 @@ public class InputMaster implements InputProcessor{
 				if (b.contains(touches.get(i))){
 					if (b.getType() == ButtonType.BACK) {
 //						SoundMaster.heroDeadq = true;
+						if (Global.getGameMode() == Global.MISSIONS) {
+							Global.enemiesDefeated = 0;
+							Global.CONTINUES = Global.STARTING_CONTINUES;
+							Global.resetEnemyMode = true;
+						}
 						MenuOperator.shutdown();
 					} else if (b.getType() == ButtonType.PLAY_AGAIN){
+						if (Global.getGameMode() == Global.MISSIONS) {
+							if (Global.CONTINUES <= 0) {
+								Global.CONTINUES = Global.STARTING_CONTINUES;
+								Global.enemiesDefeated = 0;
+								Global.resetEnemyMode = true;
+							} else {
+								Global.CONTINUES--;
+								Global.resetBall = true;
+							}
+						}
 						SoundMaster.specialq = true;
 						MenuOperator.start();
 					}

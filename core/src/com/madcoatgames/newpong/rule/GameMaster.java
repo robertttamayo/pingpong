@@ -123,7 +123,7 @@ public class GameMaster extends ScreenMaster{
 		
 		sm.update();
 		
-		score = Global.getGameMode() == Global.ARCADE ? BallPaddleMaster.getNumHits() : EnemyMaster.enemiesDefeated;
+		score = Global.getGameMode() == Global.ARCADE ? BallPaddleMaster.getNumHits() : Global.enemiesDefeated;
 		hr.draw(logic.getTcc(), batch, shaper, score, logic.isCountdownInProgress());
 		
 		Gdx.gl.glDisable(GL20.GL_BLEND);

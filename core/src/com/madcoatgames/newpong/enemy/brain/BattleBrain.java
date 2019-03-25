@@ -32,7 +32,11 @@ public class BattleBrain extends Brain{
 	@Override
 	public void update(float delta) {
 		if (!attackCharging && enemy.getStateTime() > enemy.getDelay()) {
-			attackTime += delta;
+			if (enemy.isAngry()) {
+				attackTime += delta*2f;
+			} else {
+				attackTime += delta;
+			}
 		}
 		if (attackCharging) {
 			attackChargeTime += delta;

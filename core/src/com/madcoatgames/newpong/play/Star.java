@@ -15,6 +15,8 @@ public class Star extends Hazard{
 	public boolean friendly;
 	public int dir;
 	public Rectangle bounds;
+	private float maxSpeed = 10f;
+	private float rate = 5f; 
 	
 	public Vector2 a = new Vector2();
 	public Vector2 b = new Vector2();
@@ -83,7 +85,12 @@ public class Star extends Hazard{
 
 		stateTime += delta;
 		
-		pos.x += dir * stateTime * stateTime * 8f;
+//		pos.x += dir * stateTime * stateTime * 8f;
+		if (dir > 0) {
+			pos.x += Math.min(dir * stateTime * stateTime * rate, dir * maxSpeed);
+		} else {
+			pos.x += Math.max(dir * stateTime * stateTime * rate, dir * maxSpeed);
+		}
 		bounds.setPosition(pos);
 		bounds.x -= bounds.width/2f;
 		bounds.y -= bounds.height/2f;

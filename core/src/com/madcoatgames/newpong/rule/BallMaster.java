@@ -107,7 +107,11 @@ public class BallMaster {
 		}
 		cloneBallRenderer.setCloneBalls(cloneBalls);
 	}
+	public void reset() {
+		resetBall();
+	}
 	private void resetBall(){
+		ball.reset();
 		ball.setBounds(ball.getPos().x - ball.getRadius(), ball.getPos().y - ball.getRadius(),
 				ball.getRadius()*2f, ball.getRadius() * 2f);
 		ball.setPos(Global.ballDefaultPos());
@@ -162,7 +166,7 @@ public class BallMaster {
 			float xMod = ballRight - table.right();
 			ball.getPos().x -= xMod * 2; //1 xMod would be point of contact, btw
 			ball.getVel().x *= -1;
-			if (ball.isLive()) {
+			if (ball.isLive() && Global.getGameMode() != Global.MISSIONS) {
 				SoundMaster.heroHitq = true;
 			} else {
 				SoundMaster.paddleq = true;

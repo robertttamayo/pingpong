@@ -78,8 +78,13 @@ public class SaveDataProcessor {
 
 		Array<Score> scores = new Array<Score>();
 		Array<Score> enemyScores = new Array<Score>();
-//		/* // comment out this line for non-html builds
 		SaveData saveData;
+		if (Gdx.app.getType() == ApplicationType.WebGL) {
+			saveData = new SaveData();
+		} else {
+			saveData = new SaveData();
+		}
+//		/* // comment out this line for non-html builds
 		
 		Json json = new Json();
 
@@ -113,7 +118,7 @@ public class SaveDataProcessor {
 		} else {
 			enemyScores = new Array<Score>();
 		}
-
+		//*/
 		return saveData;
 	}
 

@@ -110,6 +110,7 @@ public class BombMaster {
 		
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		shaper.begin(ShapeType.Line);
+		Gdx.gl.glLineWidth(2f);
 		shaper.setColor(r, g, b, .25f);
 		for (int i = 0; i < bombs.size; i++) {
 			bomb = bombs.get(i);
@@ -123,6 +124,7 @@ public class BombMaster {
 			}
 		}
 		shaper.end();
+		Gdx.gl.glLineWidth(1f);
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 	public Array<Bomb> getBombs(){

@@ -48,7 +48,7 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 				enemy.damage();
 			}
 			enemy.setHit(true);
-			SoundMaster.acquireq = true;
+			SoundMaster.enemyHitq = true;
 		}
 		
 	}
@@ -62,7 +62,7 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 			}
 			enemy.setHit(true);
 			bomb.setLive(false);
-			SoundMaster.acquireq = true;
+			SoundMaster.enemyHitq = true;
 		}
 	}
 	public void testCloneBallCollisions(Array<CloneBall> cloneBalls, Array<Enemy> enemies) {

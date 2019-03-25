@@ -20,6 +20,8 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 	public float electricutedTime = 0;
 	public float electricutedPeriod = .45f;
 	
+	private boolean angry = false;
+	private float angryTime = 10f;
 	/**
 	 * 
 	 */
@@ -45,11 +47,17 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 		
 		brain = new BasicBrain(this);
 	}
-
+	@Override
+	public boolean isAngry() {
+		return this.angry;
+	}
 	@Override
 	public void update(float delta) {
 		stateTime += delta;
 		brain.update(delta);
+		if (stateTime >= angryTime) {
+			angry = true;
+		}
 		updateElectricuted(delta);
 		if (dead) {
 			//should ignore collision at this point.

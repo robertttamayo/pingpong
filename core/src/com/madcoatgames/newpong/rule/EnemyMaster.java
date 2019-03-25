@@ -21,8 +21,6 @@ public class EnemyMaster {
 	private EnemyRazzleMaster enemyRazzleMaster;
 	private EnemyAttackBalancer enemyAttackBalancer;
 	
-	public static int enemiesDefeated = 0;
-	
 	public EnemyMaster(){
 		enemyRazzleMaster = new EnemyRazzleMaster(this);
 		enemyAttackBalancer = new EnemyAttackBalancer();
@@ -81,9 +79,9 @@ public class EnemyMaster {
 				if (e.getBrain().isAttackReady()){
 					if (enemyAttackBalancer.testAttack(hazards, e.x + e.height / 2f)) {
 						hazards.add(e.getBrain().getHazard());
-						System.out.println("Attack is valid");
+//						System.out.println("Attack is valid");
 					} else {
-						System.out.println("Attack is invalid");
+//						System.out.println("Attack is invalid");
 					}
 				}
 			}
@@ -94,10 +92,10 @@ public class EnemyMaster {
 				enemyRazzleMaster.newDazzler(x, y);
 				
 				enemies.removeIndex(i);
-				enemiesDefeated++;
-				System.out.println("Enemies defeated: " + enemiesDefeated);
+				Global.enemiesDefeated++;
 				if (enemies.size <= 0) {
 					groupNumber++;
+					System.out.println("EnemyMaster::Group number: " + groupNumber);
 					EnemyGroup group = new EnemyGroup();
 					group.createRandomEnemyGroup(groupNumber);
 					enemies.addAll(group.getEnemies());
@@ -126,6 +124,18 @@ public class EnemyMaster {
 		}
 	}
 
+	public void resetHazards() {
+		hazards.clear();
+	}
+	public void resetEnemies() {
+		enemies = new Array<Enemy>();
+		enemyGroups = new Array<EnemyGroup>();
+		groupNumber = 0;
+		EnemyGroup firstGroup = new EnemyGroup();
+		firstGroup.addEnemy(new BasicShootingEnemy(1, Global.width()*.5f, Global.height()*.5f, Global.height()/8f, 0f, 3f, -1));
+		enemyGroups.add(firstGroup);
+		enemies.addAll(enemyGroups.get(groupNumber).getEnemies());
+	}
 	public Array<EnemyRazzle> getEnemyRazzles() {
 		return enemyRazzleMaster.erd;
 	}

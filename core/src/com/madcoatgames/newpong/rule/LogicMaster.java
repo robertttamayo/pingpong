@@ -137,6 +137,17 @@ public class LogicMaster {
 		im.update();
 		im.updatePaddles(pm.getPaddles());//maybe memory intensive?
 		
+		if (Global.resetEnemyMode) {
+			this.em = new EnemyMaster();
+			this.bm.reset();
+			Global.resetEnemyMode = false;
+		}
+		if (Global.resetBall) {
+			this.bm.reset();
+			this.em.resetHazards();
+			Global.resetBall = false;
+		}
+		
 		filled.clear();
 		filled.addAll(starBg.getFilled());
 		if (!ebm.getLightningManager().getActive()) {
@@ -169,12 +180,11 @@ public class LogicMaster {
 		return this.textureRenderables;
 	}
 	public EnemyMaster getEnemyMaster(){
-		return em;
+		return this.em;
 	}
 	private void reset(){
 		battleMaster.reset();
-		MenuOperator.failMissions(EnemyMaster.enemiesDefeated);
-		EnemyMaster.enemiesDefeated = 0;
+		MenuOperator.failMissions(Global.enemiesDefeated);
 	}
 	public int getHealth(){
 		return battleMaster.getPlayerHealth();

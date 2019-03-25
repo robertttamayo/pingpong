@@ -69,14 +69,18 @@ public class EnemyRenderer implements Disposable{
 		}
 	}
 	private void drawAnim(SpriteBatch batch, Enemy enemy){
+		float angriness = 0f;
+		if (enemy.isAngry()) {
+			angriness = 20f;
+		}
 		batch.draw(
 				(TextureRegion) anim
 				.getKeyFrame(
 						enemy
 						.getStateTime(), true)
-				, enemy.x - margin*scale
-				, enemy.y - margin*scale
-				, enemy.getRenderWidth(), enemy.getRenderHeight());
+				, enemy.x - margin*scale - angriness/2f
+				, enemy.y - margin*scale - angriness/2f
+				, enemy.getRenderWidth() + angriness, enemy.getRenderHeight() + angriness);
 	}
 	@Override
 	public void dispose() {

@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.enemy.Enemy;
 import com.madcoatgames.newpong.play.Ball;
 import com.madcoatgames.newpong.rule.BattlePaddleMaster;
@@ -50,11 +49,6 @@ public class LightningManager {
 			nOrb.setTarget(target.x, target.y);
 			nOrb.acquired = true;
 		}
-		/*
-		 * Sound here
-		 */
-		
-		SoundMaster.elecq = true;
 		
 		orbs.add(nOrb);
 		System.out.println("orbs: " + orbs.size);

@@ -111,6 +111,7 @@ public class MissionSelectScreen implements Screen {
 			GameMaster gm = new GameMaster(this.game, this.musicMaster);
 			gm.setStarBg(this.starBg);
 			game.setScreen(gm);
+			SoundMaster.specialq = true;
 		}
 		soundMaster.update();
 	}

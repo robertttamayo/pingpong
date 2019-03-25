@@ -45,6 +45,9 @@ public class Ball {
 		ballShape.update(delta);
 		updateStates(delta);
 	}
+	public void reset() {
+		this.live = false;
+	}
 	private void updateStates(float delta){
 		if (hit){
 			hit = hitTimer.update(delta);

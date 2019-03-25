@@ -27,7 +27,6 @@ public class MainScreen extends ScreenMaster {
 	private TriColorChanger tcc;
 	
 	private GameSelectScreen gameSel;
-	private HighScoresScreen highScore;
 	private EnterNameScreen enterName;
 	private SplashScreen splash;
 	private MissionSelectScreen missions;
@@ -59,7 +58,6 @@ public class MainScreen extends ScreenMaster {
 		shaper.setProjectionMatrix(cam.combined);
 		
 		gameSel = new GameSelectScreen();
-		highScore = new HighScoresScreen();
 		enterName = new EnterNameScreen();
 		splash = new SplashScreen();
 		options = new OptionsScreen();

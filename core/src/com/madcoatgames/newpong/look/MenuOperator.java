@@ -12,6 +12,7 @@ public class MenuOperator {
 	public static final int SHUTDOWN = 4;
 	public static final int SPLAIN_ARCADE = 4;
 	public static final int SPLAIN_BATTLE = 5;
+	public static final int GAMEOVER_NO_CONTINUES = 6;
 	
 	public static boolean failTriggered = true;
 	public static boolean countdownEnabled = true;
@@ -33,6 +34,12 @@ public class MenuOperator {
 	public static void failMissions(int points){
 		firstGameOver = true;
 		type = GAMEOVER;
+		Score score = new Score(points, "name", Global.MISSIONS);
+		SaveDataCache.addScore(score);
+	}
+	public static void gameOverMissions(int points) {
+		firstGameOver = true;
+		type = GAMEOVER_NO_CONTINUES;
 		Score score = new Score(points, "name", Global.MISSIONS);
 		SaveDataCache.addScore(score);
 	}

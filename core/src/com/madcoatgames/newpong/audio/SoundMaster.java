@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.madcoatgames.newpong.util.Global;
 
 public class SoundMaster implements Disposable{	
 	//anything can access these.
@@ -13,9 +14,11 @@ public class SoundMaster implements Disposable{
 	private Sound special; // menu select
 	private Sound heroHit; // game over (alt_gameover)
 	private Sound heroDead; // quit game
+	private Sound powerup1, powerup2, powerup3, losePowerup;
 	
 	public static boolean 	jumpq, 	landq, 	normalq,	 acquireq, 	enemyDeadq, heroDeadq, 	enemyHitq, 	heroHitq, 	dashq,
 					specialq,		hyperq,		elecq,		chargeq;
+	public static boolean powerup1q, powerup2q, powerup3q, losePowerupq;
 	public static boolean paddleq;
 	public static boolean	unleashq, tokenq, fireworksq, abductionq;
 	
@@ -33,21 +36,35 @@ public class SoundMaster implements Disposable{
 		jump 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Jump4.wav")); //paddle not powerup
 		land 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Hit_Hurt6.wav"));
 		normal 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot8.wav"));//ping pong hit wall vert
-		acquire 	= Gdx.audio.newSound(Gdx.files.internal	("sound/Pickup_Coin24.wav"));
-		enemyDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/Explosion11.wav"));
-		heroDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/game_over.wav"));
-		enemyHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/Explosion15.wav"));
-		heroHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/alt_gameover.wav")); //lose juice
+		acquire 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_hit.mp3"));
+
+		 //lose juice
 		dash		= Gdx.audio.newSound(Gdx.files.internal	("sound/Powerup2.wav"));
 		special		= Gdx.audio.newSound(Gdx.files.internal	("sound/select.wav")); //acquired star //hit paddle
 		hyper		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot21.wav")); //hyper star
 		elec		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot24.wav"));
 		charge		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot19.wav"));
+		
+//		losePowerup = Gdx.audio.newSound(Gdx.files.internal("sound/lose_powerup.mp3"));
+		losePowerup = Gdx.audio.newSound(Gdx.files.internal("sound/new_PlyrHit.wav"));
+//		powerup1 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_1.mp3"));
+//		powerup2 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_2.mp3"));
+//		powerup3 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_3.mp3"));
+		powerup1 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp1.wav"));
+		powerup2 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp2.wav"));
+		powerup3 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp3.wav"));
+//		enemyDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_dead.mp3"));
+//		enemyHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_hit.mp3"));
+		enemyDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/new_enemy_die.wav"));
+		enemyHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/new_enemy_die.wav"));
+		heroHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/alt_gameover.wav"));
+		heroDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/game_over.wav"));
 		paddle_1 = Gdx.audio.newSound(Gdx.files.internal	("sound/1_paddle.wav"));
 		paddle_2 = Gdx.audio.newSound(Gdx.files.internal	("sound/2_paddle.wav"));
 		paddle_3 = Gdx.audio.newSound(Gdx.files.internal	("sound/3_paddle.wav"));
 		paddle_4 = Gdx.audio.newSound(Gdx.files.internal	("sound/4_paddle.wav"));
 		paddle_5 = Gdx.audio.newSound(Gdx.files.internal	("sound/5_paddle.wav"));
+		
 	}
 	public void disposePlay(){
 		jump.dispose();
@@ -68,6 +85,10 @@ public class SoundMaster implements Disposable{
 		paddle_3.dispose();
 		paddle_4.dispose();
 		paddle_5.dispose();
+		powerup1.dispose();
+		powerup2.dispose();
+		powerup3.dispose();
+		losePowerup.dispose();
 	}
 	public void update(){
 		playOnQueue();
@@ -106,17 +127,30 @@ public class SoundMaster implements Disposable{
 		}
 		if 	(enemyDeadq)		{
 								enemyDead.stop();
-								enemyDead.play();
+								long soundId = enemyDead.play();
+								enemyDead.setVolume(soundId, .4f);
 		}
 		if 	(heroDeadq) {
 								heroDead.play();
 								heroDeadq = false;
 		}
 		if 	(enemyHitq)			{
-								enemyHit.stop();
-								enemyHit.play();
+//								enemyHit.stop();
+//								enemyHit.play();
 		}
-		if 	(heroHitq) 			heroHit.play();
+		
+		if 	(heroHitq) 			{
+			if (Global.getGameMode() == Global.MISSIONS && Global.playerHealth == 0) {
+				heroHit.play();
+			} else if (Global.getGameMode() == Global.ARCADE) {
+				heroHit.play();
+			}
+		}
+		if 	(powerup1q) 			powerup1.play();
+		if 	(powerup2q) 			powerup2.play();
+		if 	(powerup3q) 			powerup3.play();
+		if 	(losePowerupq) 		losePowerup.play();
+		
 		if 	(dashq && !dashDisabled)	{
 								dash.play();
 								dashDisabled = true;
@@ -166,6 +200,11 @@ public class SoundMaster implements Disposable{
 		tokenq 		= false;
 		fireworksq 	= false;
 		abductionq 	= false;
+		
+		powerup1q = false;
+		powerup2q = false;
+		powerup3q = false;
+		losePowerupq = false;
 	}
 
 	@Override

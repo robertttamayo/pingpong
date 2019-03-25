@@ -2,6 +2,7 @@ package com.madcoatgames.newpong.rule;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.play.Ball;
 import com.madcoatgames.newpong.play.CloneBall;
 import com.madcoatgames.newpong.powerups.bombacity.BombMaster;
@@ -50,6 +51,9 @@ public class BallPowerupMaster {
 		previousCount = BallPaddleMaster.getNumHits();
 	}
 	public void reset() {
+		if (previousCount != 0 && powerLevel != PowerLevel.UNCHARGED) {
+			SoundMaster.losePowerupq = true;
+		}
 		previousCount = 0;
 		count = 0;
 		powerLevel = PowerLevel.UNCHARGED;
@@ -62,6 +66,9 @@ public class BallPowerupMaster {
 		switch (powerLevel) {
 			case UNCHARGED:
 				if (count >= 3) { // 3
+					if (previousCount == 2) {
+						SoundMaster.powerup1q = true;
+					}
 					int random = (int) Math.floor(Math.random() * 3f);
 					switch (random) {
 					case 0: 
@@ -80,6 +87,9 @@ public class BallPowerupMaster {
 				break;
 			case LOW:
 				if (count >= 7) { // 7
+					if (previousCount == 6) {
+						SoundMaster.powerup2q = true;
+					}
 					powerLevel = PowerLevel.SUPER;
 					actionSuper(delta);
 				} else {
@@ -88,6 +98,9 @@ public class BallPowerupMaster {
 				break;
 			case SUPER:
 				if (count >= 12) { // 12
+					if (previousCount == 11) {
+						SoundMaster.powerup1q = true;
+					}
 					powerLevel = PowerLevel.ULTRAMEGA;
 					actionUltraMega(delta);
 				} else {

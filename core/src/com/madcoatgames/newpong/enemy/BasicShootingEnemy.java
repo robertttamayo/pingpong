@@ -48,6 +48,9 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	
 	private boolean directionChangeDisabled = false;
 	
+	private boolean angry = false;
+	private float angryTime = 15f;
+	
 	public BasicShootingEnemy(int maxHealth){
 		super(maxHealth);
 		health = maxHealth;
@@ -77,10 +80,23 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	}
 
 	@Override
+	public boolean isAngry() {
+		return this.angry;
+	}
+	@Override
 	public void update(float delta) {
 		stateTime += delta;
 		brain.update(delta);
 		updateElectricuted(delta);
+//		if (stateTime >= angryTime) {
+//			if (!this.angry) {
+//				this.width += 20f;
+//				this.height += 20f;
+//				this.originX -= 10f;
+//				this.originY -= 10f;
+//			}
+//			this.angry = true;
+//		}
 		if (dead) {
 			//should ignore collision at this point.
 			// enemies don't actually 'die', they instead reset their health and respawn.
@@ -181,8 +197,9 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		if (health <= 0) {
 			health = 0;
 			setDead(true);
+			SoundMaster.enemyDeadq = true;
 		} else {
-			SoundMaster.dashq = true;
+//			SoundMaster.enemyHitq = true;
 		}
 	}
 

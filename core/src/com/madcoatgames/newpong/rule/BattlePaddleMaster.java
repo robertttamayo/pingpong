@@ -4,11 +4,12 @@ import com.badlogic.gdx.utils.Array;
 import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.play.Hazard;
 import com.madcoatgames.newpong.play.Paddle;
+import com.madcoatgames.newpong.util.Global;
 
 public class BattlePaddleMaster {
 	
-	private int playerHealth = 3;
-	private final int maxPlayerHealth = 3;
+	private int playerHealth = 5;
+	private final int maxPlayerHealth = 5;
 	private boolean playerLose = false;
 	
 	private boolean isHit = false;
@@ -16,6 +17,7 @@ public class BattlePaddleMaster {
 	private final float hitCycle = 3f;
 	
 	public void update(float delta){
+		Global.playerHealth = playerHealth;
 		if (isHit){
 			hitTimer += delta;
 			if (hitTimer >= hitCycle){
@@ -35,7 +37,11 @@ public class BattlePaddleMaster {
 					playerDamage();
 					hazards.removeValue(hazard, true);
 					BallPaddleMaster.resetHits();
-					SoundMaster.heroHitq = true;
+					if (playerHealth <= 0) {
+						SoundMaster.heroHitq = true;
+					} else {
+						SoundMaster.losePowerupq = true;
+					}
 				}
 			}
 		}
@@ -46,6 +52,7 @@ public class BattlePaddleMaster {
 		if (playerHealth <= 0){
 			playerLose = true;
 		}
+		Global.playerHealth = playerHealth;
 	}
 	public boolean isPlayerLose(){
 		return playerLose;

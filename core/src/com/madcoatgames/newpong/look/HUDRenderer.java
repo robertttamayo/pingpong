@@ -33,7 +33,8 @@ public class HUDRenderer implements Disposable{
 	private Button backButton;
 	private Button playButton;
 	
-	private final String playMessage = "Play Again";
+	private String gameOverMessage = "Game Over";
+	private String playMessage = "Play Again";
 	private final String backMessage = "Quit";
 	
 	private float scale = 1f;
@@ -42,6 +43,7 @@ public class HUDRenderer implements Disposable{
 	private boolean renderScoreEnabled = true;
 	
 	String message = "Go!";
+	String continuesMessage = "continues: ";
 	
 	private String previousMessage = "";
 	
@@ -61,8 +63,7 @@ public class HUDRenderer implements Disposable{
 		
 		font = new BitmapFont(Gdx.files.internal("font/swhite.fnt"));
 		fontCache = new BitmapFontCache(font);
-		fontCache.getFont().setFixedWidthGlyphs("0123456789");
-		
+		fontCache.getFont().setFixedWidthGlyphs("0123456789");	
 	}
 	public void drawCountdown(TriColorChanger tcc, SpriteBatch batch, float seconds) {
 		int secondsInt = (int) Math.ceil(seconds);
@@ -131,6 +132,13 @@ public class HUDRenderer implements Disposable{
 		fontCache.getFont().getData().setScale(1);
 		fontCache.addText(message, x, y);
 		
+		// continues
+		if (Global.getGameMode() == Global.MISSIONS) {
+			x = Global.width() - 240f; // best guess, nothing fancy to determine the real value here
+			y = Global.height() - 10f;
+			fontCache.addText(continuesMessage + Integer.toString(Global.CONTINUES), x, y);
+		}
+		
 		fontCache.draw(batch);
 		
 		batch.end();
@@ -158,7 +166,20 @@ public class HUDRenderer implements Disposable{
 		
 		fontCache.getFont().getData().setScale(1);
 		fontCache.setColor(tcc.c2);
-		
+		if (Global.getGameMode() == Global.MISSIONS) {
+			if (Global.CONTINUES <= 0) {
+				message = "GAME OVER";
+			} else {
+				message = "Continues: " + Global.CONTINUES;
+			}
+			gl.setText(fontCache.getFont(), message);
+			fontCache.setText(
+					message, 
+					Global.centerWidth() - (gl.width / 2f), 
+					Global.height() - 70f - (gl.height / 2f)
+					);
+			fontCache.draw(batch);
+		}
 		message = "Your score: " + String.valueOf(SaveDataCache.getCurrentPoints(Global.getGameMode()));
 		message += "\nBest score so far: " + SaveDataCache.getHighestScoreThisGame(Global.getGameMode());
 		message += "\nRecord: " + SaveDataCache.getHighestString(Global.getGameMode());
@@ -175,6 +196,13 @@ public class HUDRenderer implements Disposable{
 				);
 		fontCache.draw(batch);
 //		gl.reset();
+		if (Global.getGameMode() == Global.MISSIONS) {
+			if (Global.CONTINUES >= 1) {
+				playMessage = "Continue";
+			} else {
+				playMessage = "Play Again";
+			}
+		}	
 		gl.setText(fontCache.getFont(), playMessage);
 		fontCache.setText(
 				playMessage, 

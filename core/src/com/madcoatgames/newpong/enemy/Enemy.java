@@ -60,6 +60,8 @@ public abstract class Enemy extends Rectangle{
 	
 	public abstract void disableDirectionChange();
 	public abstract void enableDirectionChange();
+	
+	public abstract boolean isAngry();
 
 
 	protected Enemy(int maxHealth){

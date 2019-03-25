@@ -8,6 +8,14 @@ public class Global {
 	public static final int ARCADE = 0;
 	public static final int MISSIONS = 1;
 	
+	public static int CONTINUES = 3;
+	public static final int STARTING_CONTINUES = 3;
+	public static boolean game_over_no_continues = false;
+	public static int enemiesDefeated = 0;
+	public static boolean resetEnemyMode = false;
+	public static boolean resetBall = false;
+	public static int playerHealth = 0;
+	
 	private static float width, height;
 	private static float nativeWidth, nativeHeight;
 
