@@ -4,12 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Renderable;
 import com.badlogic.gdx.utils.Array;
+import com.madcoatgames.newpong.look.BallRenderer;
 import com.madcoatgames.newpong.look.HUDRenderer;
 import com.madcoatgames.newpong.look.MenuOperator;
 import com.madcoatgames.newpong.play.Button;
 import com.madcoatgames.newpong.play.Table;
 import com.madcoatgames.newpong.powerups.bombacity.BombMaster;
 import com.madcoatgames.newpong.powerups.electricity.LightningManager;
+import com.madcoatgames.newpong.powerups.virus.VirusMaster;
 import com.madcoatgames.newpong.util.FilledShapeRenderable;
 import com.madcoatgames.newpong.util.Global;
 import com.madcoatgames.newpong.util.LineShapeRenderable;
@@ -217,5 +219,15 @@ public class LogicMaster {
 		} else {
 			return null;
 		}
+	}
+	public VirusMaster getVirusMaster() {
+		if (Global.getGameMode() == Global.MISSIONS) {
+			return ballPowerupMaster.getVirusMaster();
+		} else {
+			return null;
+		}
+	}
+	public BallRenderer getBallRenderer() {
+		return bm.getBallRenderer();
 	}
 }

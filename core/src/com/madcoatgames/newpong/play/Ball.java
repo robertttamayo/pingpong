@@ -23,6 +23,7 @@ public class Ball {
 	private boolean live = false;
 	
 	private boolean isDead = false;
+	private boolean infector = false;
 	
 	public Type type = Type.NORMAL;
 	public int verticalCollisionCount = 0;
@@ -131,5 +132,10 @@ public class Ball {
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
 	}
-	
+	public boolean hasInfector() {
+		return this.infector;
+	}
+	public void setInfector(boolean infector) {
+		this.infector = infector;
+	}
 }

@@ -82,9 +82,11 @@ public class RenderMaster implements Disposable{
 	}
 	public void renderBatchEnemies(SpriteBatch batch, Array<Enemy> enemies, Color color){
 		batch.begin();
-		batch.setColor(color);
 		
 		for (Enemy e : enemies){
+			float shade = e.getShade();
+//			System.out.println("RenderMaster::" + r + ", " + g + ", " + b + ". shade: " + shade);
+			batch.setColor(color.r * shade, color.g * shade, color.b * shade, color.a);
 			if (e.isDead()) {
 				continue;
 			}

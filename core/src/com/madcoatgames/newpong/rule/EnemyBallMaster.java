@@ -10,6 +10,7 @@ import com.madcoatgames.newpong.play.CloneBall;
 import com.madcoatgames.newpong.powerups.bombacity.Bomb;
 import com.madcoatgames.newpong.powerups.bombacity.BombMaster;
 import com.madcoatgames.newpong.powerups.electricity.LightningManager;
+import com.madcoatgames.newpong.powerups.virus.VirusMaster;
 import com.madcoatgames.newpong.util.BallUpdateable;
 import com.madcoatgames.newpong.util.EnemyUpdateable;
 
@@ -18,11 +19,13 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 	private Ball ball;
 	
 	public LightningManager lightningManager;
+	public VirusMaster virusMaster;
 	private BombMaster bombMaster;
 	
 	public EnemyBallMaster(Ball ball) {
 		lightningManager = new LightningManager(ball);
 		bombMaster = new BombMaster(ball);
+		virusMaster = new VirusMaster(ball);
 	}
 	
 	public void update(Ball ball, Array<Enemy> enemies){
@@ -38,6 +41,7 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 		if (bombMaster.isActive()) {
 			bombMaster.update(Gdx.graphics.getDeltaTime());
 		}
+		virusMaster.update(enemies, Gdx.graphics.getDeltaTime());
 	}
 	public void testCollision(Ball ball, Enemy enemy){
 		if (!ball.isLive() || enemy.isDead() || enemy.isHit()){
@@ -93,6 +97,9 @@ public class EnemyBallMaster implements EnemyUpdateable, BallUpdateable {
 		this.ball = ball;
 	}
 	
+	public VirusMaster getVirusMaster() {
+		return this.virusMaster;
+	}
 	public LightningManager getLightningManager() {
 		return this.lightningManager;
 	}

@@ -263,4 +263,45 @@ public class BasicEnemy extends Enemy implements FollowsBall{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	@Override
+	public float getShade() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public boolean isInfected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void updateInfected(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public float getInfectedTime() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public boolean isImmune() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public void setImmune(boolean immune) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void infect(boolean directContact) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean infectedByDirectContact() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

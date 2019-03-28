@@ -44,12 +44,20 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	private float delay = 0;
 	private int yDir = 1;
 	
+	public float shade = 1f; // number between 0f and .9f;
+	
 	private float attackInterval = 5f;
 	
 	private boolean directionChangeDisabled = false;
 	
 	private boolean angry = false;
 	private float angryTime = 15f;
+	
+	private float infectedTime = 0f;
+	private boolean infected = false;
+	private boolean immune = false;
+	private float immuneTime = 0f;
+	private boolean infectedByDirectContact = false;
 	
 	public BasicShootingEnemy(int maxHealth){
 		super(maxHealth);
@@ -77,6 +85,7 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 		this.delay = delay;
 		this.yDir = yDir;
 		this.attackInterval = interval;
+		this.shade = .8f + (float)(this.health / this.maxHealth) * .2f;
 	}
 
 	@Override
@@ -85,9 +94,18 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	}
 	@Override
 	public void update(float delta) {
-		stateTime += delta;
-		brain.update(delta);
+		this.shade = .75f + (float)(this.health / this.maxHealth) * .25f;
+		if ((infected && infectedTime > 0f) ||
+				electricContact) {
+			stateTime += delta * .5f;
+			brain.update(delta * .1f);
+		} else {
+			stateTime += delta;
+			brain.update(delta);
+		}
+		
 		updateElectricuted(delta);
+		updateInfected(delta);
 //		if (stateTime >= angryTime) {
 //			if (!this.angry) {
 //				this.width += 20f;
@@ -299,6 +317,61 @@ public class BasicShootingEnemy extends Enemy implements FollowsBall{
 	@Override
 	public float getTravelX() {
 		return this.travelX;
+	}
+	@Override
+	public float getShade() {
+		// TODO Auto-generated method stub
+		return this.shade;
+	}
+	@Override
+	public boolean isInfected() {
+		return this.infected;
+	}
+	@Override
+	public void infect(boolean directContact) {
+		this.infected = true;
+		if (directContact) {
+			this.infectedTime = -.01f;
+		} else {
+			this.infectedTime = -1f;
+		}
+	}
+	@Override
+	public void updateInfected(float delta) {
+		if (immune) {
+			immuneTime += delta;
+			if (immuneTime >= .5f) {
+				immuneTime = 0f;
+				immune = false;
+			}
+		}
+		if (infected) {
+			this.infectedTime += delta;
+			if (infectedTime >= Global.infectedPeriod) {
+				this.damage();
+				this.infected = false;
+				this.infectedTime = 0f;
+				this.immune = true;
+				this.immuneTime = 0f;
+				this.infectedByDirectContact = false;
+			}
+		}
+	}
+	@Override
+	public float getInfectedTime() {
+		return this.infectedTime;
+	}
+	@Override
+	public boolean isImmune() {
+		return this.immune;
+	}
+	@Override
+	public void setImmune(boolean immune) {
+		this.immune = immune;
+	}
+	@Override
+	public boolean infectedByDirectContact() {
+		return this.infectedByDirectContact;
 	}
 
 }

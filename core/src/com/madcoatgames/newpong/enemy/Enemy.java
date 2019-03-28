@@ -62,6 +62,16 @@ public abstract class Enemy extends Rectangle{
 	public abstract void enableDirectionChange();
 	
 	public abstract boolean isAngry();
+	
+	public abstract float getShade();
+	
+	public abstract boolean isInfected();
+	public abstract void infect(boolean directContact);
+	public abstract void updateInfected(float delta);
+	public abstract float getInfectedTime();
+	public abstract boolean isImmune();
+	public abstract void setImmune(boolean immune);
+	public abstract boolean infectedByDirectContact();
 
 
 	protected Enemy(int maxHealth){

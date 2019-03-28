@@ -280,4 +280,7 @@ public class BallMaster {
 	public Array<CloneBall> getCloneBalls(){
 		return this.cloneBalls;
 	}
+	public BallRenderer getBallRenderer() {
+		return this.br;
+	}
 }

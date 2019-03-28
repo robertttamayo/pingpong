@@ -83,6 +83,9 @@ public class GameMaster extends ScreenMaster{
 		cam.update();
 		if (MenuOperator.getType() == MenuOperator.PLAY) {
 			logic.update(delta, hr, batch);
+			if (Global.getGameMode() == Global.MISSIONS) {
+				logic.getBallRenderer().update(delta);
+			}
 		} else if (MenuOperator.getType() == MenuOperator.GAMEOVER){
 			logic.updatePaused(delta, hr);
 			if (MenuOperator.firstGameOverCheck()) {
@@ -117,6 +120,7 @@ public class GameMaster extends ScreenMaster{
 			// lightning
 			logic.getLightningManager().render(shaper, delta);
 			logic.getLightningManager().renderTargetCircle(logic.getEnemyMaster().getEnemies(), shaper, delta);
+			logic.getVirusMaster().renderTargetCircle(logic.getEnemyMaster().getEnemies(), shaper, delta);
 			// bombs
 			logic.getBombMaster().render(shaper);
 		}

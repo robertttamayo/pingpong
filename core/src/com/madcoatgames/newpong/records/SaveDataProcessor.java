@@ -107,16 +107,22 @@ public class SaveDataProcessor {
 		saveData = json.fromJson(
 				SaveData.class
 				, data);
-		
-		if (saveData.scores != null) {
-			scores = saveData.scores;
+
+		if (saveData == null) {
+			saveData = new SaveData();
+			saveData.scores = new Array<Score>();
+			saveData.enemyScores = new Array<Score>();
 		} else {
-			scores = new Array<Score>();
-		}
-		if (saveData.enemyScores != null) {
-			enemyScores = saveData.enemyScores;
-		} else {
-			enemyScores = new Array<Score>();
+			if (saveData.scores != null) {
+				scores = saveData.scores;
+			} else {
+				scores = new Array<Score>();
+			}
+			if (saveData.enemyScores != null) {
+				enemyScores = saveData.enemyScores;
+			} else {
+				enemyScores = new Array<Score>();
+			}
 		}
 		//*/
 		return saveData;

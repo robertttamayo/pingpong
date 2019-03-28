@@ -53,7 +53,11 @@ public class EnemyRenderer implements Disposable{
 	private void prep_UFO_MEDIUM(SpriteBatch batch, Enemy e){
 		originalColor = batch.getColor();
 		
-		if (e.isHit()){
+//		if (e.isHit() || (e.isInfected() && e.getInfectedTime() > 0f)){
+		if (e.getStateTime() < 1f) {
+			batch.setColor(originalColor.r, originalColor.g, originalColor.b, Math.min(e.getStateTime()*.75f, 1f));
+		}
+		if (e.isHit()) {
 			batch.setColor((float) Math.random(), (float) Math.random(), (float) Math.random()/3f, 1f);
 		}
 		

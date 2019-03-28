@@ -33,6 +33,12 @@ public class Global {
 	private static boolean canInitialize = true;
 	
 	public static float electricutedPeriod = 1.2f;
+	
+	public static float infectedPeriod = 2.4f;
+	public static float infectedPeriod1 = 2.4f;
+	public static float infectedPeriod2 = 1.8f; // 1.8
+	public static float infectedPeriod3 = 1.2f; // 1.2
+	public static int infectedLevel = 1;
 
 	public static float width() {
 		return width;

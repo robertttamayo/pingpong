@@ -7,18 +7,23 @@ import com.madcoatgames.newpong.play.Ball;
 import com.madcoatgames.newpong.play.CloneBall;
 import com.madcoatgames.newpong.powerups.bombacity.BombMaster;
 import com.madcoatgames.newpong.powerups.electricity.LightningManager;
+import com.madcoatgames.newpong.powerups.radial.RadialMaster;
+import com.madcoatgames.newpong.powerups.virus.VirusMaster;
 import com.madcoatgames.newpong.util.Global;
 
 public class BallPowerupMaster {
 	
 	private int previousCount = 0;
 	private int count = 0;
+	private int previousPowerup = -1;
 	
 	private BallPaddleMaster ballPaddleMaster;
 	private BallMaster ballMaster;
 	private EnemyBallMaster enemyBallMaster;
 	private BombMaster bombMaster;
 	private LightningManager lightningManager;
+	private VirusMaster virusMaster;
+	private RadialMaster radialMaster;
 	
 	public Type type = Type.ELECTRICITY;
 	public PowerLevel powerLevel = PowerLevel.UNCHARGED;
@@ -28,12 +33,14 @@ public class BallPowerupMaster {
 	}
 	
 	public enum Type {
-		ELECTRICITY, DUPLICITY, BOMB
+		ELECTRICITY, DUPLICITY, BOMB, VIRUS, RADIAL
 	}
 	public BallPowerupMaster(BallPaddleMaster ballPaddleMaster, BallMaster ballMaster, EnemyBallMaster enemyBallMaster) {
 		this.ballPaddleMaster = ballPaddleMaster;
 		this.ballMaster = ballMaster;
 		this.enemyBallMaster = enemyBallMaster;
+		this.virusMaster = enemyBallMaster.getVirusMaster();
+		this.radialMaster = new RadialMaster();
 		this.lightningManager = enemyBallMaster.getLightningManager();
 		this.bombMaster = enemyBallMaster.getBombMaster();
 	}
@@ -60,6 +67,8 @@ public class BallPowerupMaster {
 		lightningManager.setActive(false);
 		lightningManager.orbs.clear();
 		bombMaster.setActive(false);
+		virusMaster.setActive(false);
+		ballMaster.getBall().setInfector(false);
 	}
 	
 	public void action(float delta) {
@@ -69,7 +78,14 @@ public class BallPowerupMaster {
 					if (previousCount == 2) {
 						SoundMaster.powerup1q = true;
 					}
-					int random = (int) Math.floor(Math.random() * 3f);
+					int random = 0;
+					while (true) {
+						random = (int) Math.floor(Math.random() * 4f);
+						if (random != previousPowerup) {
+							previousPowerup = random;
+							break;
+						}
+					}
 					switch (random) {
 					case 0: 
 						type = Type.DUPLICITY;
@@ -80,31 +96,62 @@ public class BallPowerupMaster {
 					case 2: 
 						type = Type.BOMB;
 						break;
+					case 3:
+						type = Type.VIRUS;
+						break;
+					case 4:
+						type = Type.RADIAL;
+						break;
 					}
+//					type = Type.ELECTRICITY;
 					powerLevel = PowerLevel.LOW;
 					actionLow(delta);
 				}
 				break;
 			case LOW:
-				if (count >= 7) { // 7
-					if (previousCount == 6) {
-						SoundMaster.powerup2q = true;
+				if (type == Type.DUPLICITY) {
+					if (count >= 5) {
+						if (previousCount == 4) {
+							SoundMaster.powerup2q = true;
+						}
+						powerLevel = PowerLevel.SUPER;
+						actionSuper(delta);
+					} else {
+						actionLow(delta);
 					}
-					powerLevel = PowerLevel.SUPER;
-					actionSuper(delta);
 				} else {
-					actionLow(delta);
+					if (count >= 7) { // 7
+						if (previousCount == 6) {
+							SoundMaster.powerup2q = true;
+						}
+						powerLevel = PowerLevel.SUPER;
+						actionSuper(delta);
+					} else {
+						actionLow(delta);
+					}
 				}
 				break;
 			case SUPER:
-				if (count >= 12) { // 12
-					if (previousCount == 11) {
-						SoundMaster.powerup1q = true;
+				if (type == Type.DUPLICITY) {
+					if (count >= 7) {
+						if (previousCount == 6) {
+							SoundMaster.powerup3q = true;
+						}
+						powerLevel = PowerLevel.SUPER;
+						actionUltraMega(delta);
+					} else {
+						actionSuper(delta);
 					}
-					powerLevel = PowerLevel.ULTRAMEGA;
-					actionUltraMega(delta);
 				} else {
-					actionSuper(delta);
+					if (count >= 12) { // 12
+						if (previousCount == 11) {
+							SoundMaster.powerup3q = true;
+						}
+						powerLevel = PowerLevel.ULTRAMEGA;
+						actionUltraMega(delta);
+					} else {
+						actionSuper(delta);
+					}
 				}
 				break;
 			case ULTRAMEGA:
@@ -144,13 +191,19 @@ public class BallPowerupMaster {
 			lightningManager.setActive(true);
 			lightningManager.createHeroNormal();
 			LightningManager.boltCount = 1;
-			Global.electricutedPeriod = 1.2f;
+			Global.electricutedPeriod = 1f;
 			break;
 		case BOMB:
 			bombMaster.setActive(true);
 			bombMaster.statusLevel = 1;
 			bombMaster.update(delta);
 			break;
+		case VIRUS:
+			virusMaster.setActive(true);
+			virusMaster.statusLevel = 1;
+			Global.infectedPeriod = Global.infectedPeriod1;
+			Global.infectedLevel = 1;
+			ball.setInfector(true);
 		}
 	}
 	public void actionSuper(float delta) {
@@ -230,12 +283,19 @@ public class BallPowerupMaster {
 			lightningManager.setActive(true);
 			lightningManager.createHeroNormal();
 			LightningManager.boltCount = 2;
-			Global.electricutedPeriod = 1f;
+			Global.electricutedPeriod = .8f;
 			break;
 		case BOMB:
 			bombMaster.setActive(true);
 			bombMaster.statusLevel = 2;
 			bombMaster.update(delta);
+			break;
+		case VIRUS:
+			virusMaster.setActive(true);
+			virusMaster.statusLevel = 2;
+			Global.infectedLevel = 2;
+			Global.infectedPeriod = Global.infectedPeriod2;
+			ballMaster.getBall().setInfector(true);
 			break;
 		}
 	}
@@ -278,14 +338,23 @@ public class BallPowerupMaster {
 			lightningManager.setActive(true);
 			lightningManager.createHeroNormal();
 			LightningManager.boltCount = 5;
-			Global.electricutedPeriod = .8f;
+			Global.electricutedPeriod = .6f;
 			break;
 		case BOMB:
 			bombMaster.setActive(true);
 			bombMaster.statusLevel = 3;
 			bombMaster.update(delta);
 			break;
+		case VIRUS:
+			virusMaster.setActive(true);
+			virusMaster.statusLevel = 3;
+			Global.infectedLevel = 3;
+			Global.infectedPeriod = Global.infectedPeriod3;
+			ballMaster.getBall().setInfector(true);
+			break;
 		}
 	}
-
+	public VirusMaster getVirusMaster() {
+		return this.virusMaster;
+	}
 }
