@@ -33,10 +33,12 @@ public class ModeMenuHUD implements Disposable{
 	private Button titleButton;
 	private Button arcadeButton;
 	private Button battleButton;
+	private Button scoreButton;
 	
 	private final String titleMessage = "Game Mode";
 	private final String arcadeMessage = "Solo";
 	private final String battleMessage = "Enemies";
+	private final String scoresMessage = "Scores";
 	
 	private float scale = 1f;
 	
@@ -46,10 +48,12 @@ public class ModeMenuHUD implements Disposable{
 		titleButton = new Button(ButtonType.TITLE);
 		arcadeButton = new Button(ButtonType.MODE_ARCADE);
 		battleButton = new Button(ButtonType.MODE_BATTLE);
+		scoreButton = new Button(ButtonType.SCORE);
 		
 		buttons.add(titleButton);
 		buttons.add(arcadeButton);
 		buttons.add(battleButton);
+		buttons.add(scoreButton);
 		
 		placement = new ModeMenuHUDPlacement();
 		placement.settle(buttons);
@@ -63,6 +67,7 @@ public class ModeMenuHUD implements Disposable{
 	public void draw(TriColorChanger tcc, SpriteBatch batch, ShapeRenderer shaper){
 		shaper.begin(ShapeType.Filled);
 		for (Button b : buttons){
+//			if (b.getType() == ButtonType.TITLE || b.getType() == ButtonType.SCORE) {
 			if (b.getType() == ButtonType.TITLE) {
 				continue;
 			}
@@ -111,6 +116,14 @@ public class ModeMenuHUD implements Disposable{
 				battleButton.getCenterPaddingY() + (gl.height / 2f)
 				);
 		fontCache.draw(batch);
+		
+		gl.setText(fontCache.getFont(), scoresMessage);
+		fontCache.setText(
+				scoresMessage, 
+				scoreButton.getCenterPaddingX() - (gl.width / 2f),
+				scoreButton.getCenterPaddingY() + (gl.height / 2f)
+				);
+		fontCache.draw(batch);
 		gl.reset();
 		
 		batch.end();
@@ -136,6 +149,12 @@ public class ModeMenuHUD implements Disposable{
 	@Override
 	public void dispose() {
 		font.dispose();
+	}
+
+	public void setAllButtonsVisible(boolean visible) {
+		for (int i = 0; i < buttons.size; i++) {
+			buttons.get(i).visible = visible;
+		}
 	}
 	
 	

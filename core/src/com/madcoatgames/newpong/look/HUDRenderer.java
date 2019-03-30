@@ -36,6 +36,7 @@ public class HUDRenderer implements Disposable{
 	private String gameOverMessage = "Game Over";
 	private String playMessage = "Play Again";
 	private final String backMessage = "Quit";
+	private String scoreMessage = "Sync Score";
 	
 	private float scale = 1f;
 	private int lastScore = -1;

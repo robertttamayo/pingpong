@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.madcoatgames.newpong.nongame.RevolveTextInputer;
 import com.madcoatgames.newpong.play.Button;
 import com.madcoatgames.newpong.play.Button.ButtonType;
 import com.madcoatgames.newpong.records.SaveDataCache;
@@ -41,6 +42,9 @@ public class HomeMenuHUD implements Disposable{
 	private FontSizeTimer fst = new FontSizeTimer();
 	
 	public HomeMenuHUD(){
+//		RevolveTextInputer listener = new RevolveTextInputer();
+//		Gdx.input.getTextInput(listener, "Enter your name 1", Global.USER_NAME, "Your name 1");
+
 		titleButton = new Button(ButtonType.TITLE);
 		startButton = new Button(ButtonType.START);
 		

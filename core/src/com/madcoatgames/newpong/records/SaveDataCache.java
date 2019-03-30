@@ -56,10 +56,10 @@ public class SaveDataCache {
 
 		return highest;
 	}
-	static Array<Score> getScores(){
+	public static Array<Score> getScores(){
 		return scores;
 	}
-	static Array<Score> getEnemyScores(){
+	public static Array<Score> getEnemyScores(){
 		return enemyScores;
 	}
 

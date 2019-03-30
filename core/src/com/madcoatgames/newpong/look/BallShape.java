@@ -29,19 +29,31 @@ public class BallShape {
 	private float shellSpread;
 	private float dirSpeed;
 	private Vector2 center = new Vector2();
-	private int[] angles = new int[4];
+	private int[] angles;
 	private Array<Vector2> arcs = new Array<Vector2>();
 	
 	private int angle = 0;
+	private int angleCount = 4;
+	
+	private boolean darkMode = false;
 	
 	public BallShape(){
-		radiusYolk =  16f;
-		radiusShell = 20f;
-		shellSpread = SHELL_SPREAD_CLOSED;
+		if (darkMode) {
+			radiusYolk =  16f;
+			radiusShell = 20f;
+			shellSpread = SHELL_SPREAD_CLOSED;
+			angleCount = 3;
+		} else {
+			radiusYolk =  16f;
+			radiusShell = 20f;
+			shellSpread = SHELL_SPREAD_CLOSED;
+			angleCount = 4;
+		}
+		angles = new int[angleCount];
 		
 		dirSpeed = 30f;
 		
-		for (int i = 0; i < 4; i++){
+		for (int i = 0; i < angleCount; i++){
 			arcs.add(new Vector2(0,0));
 		}
 	}
@@ -69,7 +81,7 @@ public class BallShape {
 	}
 	private void generateAngles(){
 		for (int i = 0; i < angles.length; i++){
-			angles[i] = angle + i * 90;
+			angles[i] = angle + i * 360/angleCount;
 		}
 	}
 	private void placeArcs(){

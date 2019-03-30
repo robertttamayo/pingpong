@@ -13,10 +13,16 @@ public class Button extends TouchTarget{
 	private float paddingTop, paddingLeft, paddingRight, paddingBottom;
 	
 	public enum ButtonType {
-		QUIT, BACK, PLAY_AGAIN, START, TITLE, OPTIONS, SCORE, MODE_ARCADE, MODE_BATTLE, CONT
+		QUIT, BACK, PLAY_AGAIN, START, TITLE, OPTIONS, SCORE, MODE_ARCADE, MODE_BATTLE, CONT, 
+		EXIT_SCORE, SELECT_SCORE,
+		SCORE_MODE_SOLO, SCORE_MODE_ENEMIES,
+		SCORE_SCOPE_GLOBAL, SCORE_SCOPE_LOCAL
 	}
 	private ButtonType type;
 	private Color color;
+	
+	public boolean enabled = true;
+	public boolean visible = true;
 	
 	public Button(ButtonType type) {
 		this.type = type;

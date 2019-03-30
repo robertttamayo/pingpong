@@ -16,13 +16,14 @@ import com.madcoatgames.newpong.look.RenderMaster;
 import com.madcoatgames.newpong.look.TextureManager;
 import com.madcoatgames.newpong.nongame.HomeScreen;
 import com.madcoatgames.newpong.nongame.MissionSelectScreen;
+import com.madcoatgames.newpong.nongame.TextInputHandler;
 import com.madcoatgames.newpong.records.SaveDataCache;
 import com.madcoatgames.newpong.records.SaveDataProcessor;
 import com.madcoatgames.newpong.util.Global;
 import com.madcoatgames.newpong.util.StateUpdateable;
 import com.madcoatgames.newpong.util.TriColorChanger;
 
-public class GameMaster extends ScreenMaster{
+public class GameMaster extends ScreenMaster implements TextInputHandler{
 	protected Game game;
 	private ShapeRenderer shaper;
 	private OrthographicCamera cam;
@@ -175,6 +176,10 @@ public class GameMaster extends ScreenMaster{
 	public void setStarBg(StarBackgroundMaster starBg) {
 		this.starBg = starBg;
 		logic.setStarBg(this.starBg);
+	}
+	@Override
+	public void handle(String input) {
+		
 	}
 }
 

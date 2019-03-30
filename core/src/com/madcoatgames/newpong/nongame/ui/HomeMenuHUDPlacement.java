@@ -14,7 +14,7 @@ public class HomeMenuHUDPlacement {
 		Rectangle frame = new Rectangle();
 		
 		frame.setSize(4f*Global.width()/5f, .8f*Global.height());
-		frame.setPosition(0 + (Global.width() - frame.width)/2f, 0 + (Global.height() - frame.height)/2f);
+		frame.setPosition(0 + (Global.width() - frame.width)/2f, 60f + (Global.height() - frame.height)/2f);
 		
 		Button title, start;
 		
@@ -31,7 +31,7 @@ public class HomeMenuHUDPlacement {
 		start = getButtonByType(buttons, ButtonType.START);
 		
 		start.setSize(frame.width/2f, .2f * frame.height);
-		start.setPosition(frame.x + .25f*frame.width, frame.y);
+		start.setPosition(frame.x + .25f*frame.width, frame.y );
 		
 		start.setPaddingLeft(padding);
 		start.setPaddingRight(padding);

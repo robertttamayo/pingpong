@@ -95,15 +95,41 @@ public class InputMaster implements InputProcessor{
 	}
 	public void updateMissionSelectScreen(MissionSelectScreen screen){
 		for (Button b : screen.getButtons()){
+			if (!b.visible) {
+				continue;
+			}
+			boolean enabled = true;
 			for (int i = 0; i < touches.size; i++){
-				if (b.contains(touches.get(i))){
-					if (b.getType() == ButtonType.MODE_ARCADE) {
+				if (b.enabled && b.contains(touches.get(i))){
+					enabled = false;
+					switch (b.getType()) {
+					case MODE_ARCADE:
 						screen.setAction(MissionSelectScreen.Action.ARCADE);
-					} else if (b.getType() == ButtonType.MODE_BATTLE){
+						break;
+					case MODE_BATTLE:
 						screen.setAction(MissionSelectScreen.Action.BATTLE);
+						break;
+					case SCORE:
+						screen.setAction(MissionSelectScreen.Action.SCORE);
+						break;
+					case EXIT_SCORE:
+						screen.setAction(MissionSelectScreen.Action.EXIT_SCORE);
+						break;
+					case SCORE_SCOPE_GLOBAL:
+						screen.setAction(MissionSelectScreen.Action.SCORE_SCOPE_GLOBAL);
+						break;
+					case SCORE_SCOPE_LOCAL: 
+						screen.setAction(MissionSelectScreen.Action.SCORE_SCOPE_LOCAL);
+						break;
+					case SELECT_SCORE:
+						screen.setAction(MissionSelectScreen.Action.SELECT_SCORE);
+						break;
 					}
+				} else if (!b.enabled && b.contains(touches.get(i))) {
+					enabled = false;
 				}
 			}
+			b.enabled = enabled;
 		}
 	}
 	public void updateHUD(HUDRenderer hud){

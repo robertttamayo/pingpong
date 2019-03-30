@@ -39,6 +39,8 @@ public class Global {
 	public static float infectedPeriod2 = 1.8f; // 1.8
 	public static float infectedPeriod3 = 1.2f; // 1.2
 	public static int infectedLevel = 1;
+	
+	public static String USER_NAME = "";
 
 	public static float width() {
 		return width;

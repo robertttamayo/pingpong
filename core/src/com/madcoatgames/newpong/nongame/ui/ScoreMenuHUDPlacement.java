@@ -6,7 +6,7 @@ import com.madcoatgames.newpong.play.Button;
 import com.madcoatgames.newpong.play.Button.ButtonType;
 import com.madcoatgames.newpong.util.Global;
 
-public class ModeMenuHUDPlacement {
+public class ScoreMenuHUDPlacement {
 	
 	public void settle(Array<Button> buttons){
 		float padding = 7.5f;
@@ -20,15 +20,17 @@ public class ModeMenuHUDPlacement {
 		
 		title = getButtonByType(buttons, ButtonType.TITLE);
 		
-		title.setSize(frame.width, .8f*frame.height);
-		title.setPosition(frame.x, frame.y + .2f*frame.height);
+		if (title != null) {
+			title.setSize(frame.width, .8f*frame.height);
+			title.setPosition(frame.x, frame.y + .2f*frame.height);
+			
+			title.setPaddingLeft(0f);
+			title.setPaddingRight(0f);
+			title.setPaddingTop(0f);
+			title.setPaddingBottom(0f);
+		}
 		
-		title.setPaddingLeft(0f);
-		title.setPaddingRight(0f);
-		title.setPaddingTop(0f);
-		title.setPaddingBottom(0f);
-		
-		arcade = getButtonByType(buttons, ButtonType.MODE_ARCADE);
+		arcade = getButtonByType(buttons, ButtonType.SCORE_SCOPE_LOCAL);
 		if (arcade != null) {
 			arcade.setSize(frame.width/2f, .2f * frame.height);
 			arcade.setPosition(frame.x, frame.y);
@@ -39,7 +41,7 @@ public class ModeMenuHUDPlacement {
 			arcade.setPaddingBottom(padding);
 		}
 		
-		battle = getButtonByType(buttons, ButtonType.MODE_BATTLE);
+		battle = getButtonByType(buttons, ButtonType.SCORE_SCOPE_GLOBAL);
 		if (battle != null) {
 			battle.setSize(frame.width/2f, .2f * frame.height);
 			battle.setPosition(frame.x + .5f*frame.width, frame.y);
@@ -50,7 +52,18 @@ public class ModeMenuHUDPlacement {
 			battle.setPaddingBottom(padding);
 		}
 		
-		score = getButtonByType(buttons, ButtonType.SCORE);
+		score = getButtonByType(buttons, ButtonType.EXIT_SCORE);
+		if (score != null) {
+			score.setSize(frame.width/3f, .15f * frame.height);
+			score.setPosition(Global.width()/2f - frame.width/6f, 20f);
+			
+			score.setPaddingLeft(padding/2f);
+			score.setPaddingRight(padding/2f);
+			score.setPaddingTop(padding/2f);
+			score.setPaddingBottom(padding/2f);
+		}
+		
+		score = getButtonByType(buttons, ButtonType.SELECT_SCORE);
 		if (score != null) {
 			score.setSize(frame.width/3f, .15f * frame.height);
 			score.setPosition(Global.width()/2f - frame.width/6f, 20f);

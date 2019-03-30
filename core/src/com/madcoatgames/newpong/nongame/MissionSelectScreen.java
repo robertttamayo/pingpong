@@ -15,6 +15,7 @@ import com.madcoatgames.newpong.audio.SoundMaster;
 import com.madcoatgames.newpong.look.RenderMaster;
 import com.madcoatgames.newpong.nongame.ui.HomeMenuHUD;
 import com.madcoatgames.newpong.nongame.ui.ModeMenuHUD;
+import com.madcoatgames.newpong.nongame.ui.ScoreMenuHUD;
 import com.madcoatgames.newpong.play.Button;
 import com.madcoatgames.newpong.rule.GameMaster;
 import com.madcoatgames.newpong.rule.InputMaster;
@@ -25,7 +26,10 @@ import com.madcoatgames.newpong.util.TriColorChanger;
 
 public class MissionSelectScreen implements Screen {
 	public enum Action {
-		ARCADE, BATTLE, STEADY
+		ARCADE, BATTLE, STEADY, SCORE, EXIT_SCORE, SCORE_SCOPE_LOCAL, SCORE_SCOPE_GLOBAL, SELECT_SCORE
+	}
+	private enum HUD {
+		NORMAL, SCORES
 	}
 	private Action action = Action.STEADY;
 	
@@ -45,6 +49,9 @@ public class MissionSelectScreen implements Screen {
 	private MusicMaster musicMaster;
 	private SoundMaster soundMaster;
 	
+	private ScoreMenuHUD scoreHUD;
+	private HUD activeHUD;
+	
 	public MissionSelectScreen (Game game, MusicMaster musicMaster){
 		this.game = game;
 		
@@ -53,6 +60,7 @@ public class MissionSelectScreen implements Screen {
 		, new Color(1, .25f, .64f, 1));
 		
 		hud = new ModeMenuHUD();
+		scoreHUD = new ScoreMenuHUD();
 		input = new InputMaster();
 		
 		cam = new OrthographicCamera();
@@ -67,6 +75,7 @@ public class MissionSelectScreen implements Screen {
 		
 		this.musicMaster = musicMaster;
 		this.soundMaster = new SoundMaster();
+		this.activeHUD = HUD.NORMAL;
 	}
 
 	@Override
@@ -98,7 +107,11 @@ public class MissionSelectScreen implements Screen {
 		starBg.renderFilled(shaper);
 		shaper.end();
 		
-		hud.draw(tcc, batch, shaper);
+		if (activeHUD == HUD.NORMAL) {
+			hud.draw(tcc, batch, shaper);
+		} else {
+			scoreHUD.draw(tcc, batch, shaper);
+		}
 		
 		if (action == Action.ARCADE){
 			Global.setGameModeArcade();
@@ -112,6 +125,32 @@ public class MissionSelectScreen implements Screen {
 			gm.setStarBg(this.starBg);
 			game.setScreen(gm);
 			SoundMaster.specialq = true;
+		} else if (action == Action.SCORE) {
+			System.out.println("MISSION SELECT SCREEN:: score");
+			SoundMaster.specialq = true;
+			action = Action.STEADY;
+			activeHUD = HUD.SCORES;
+			scoreHUD.setSelectScreen();
+			hud.setAllButtonsVisible(false);
+		} else if (action == Action.EXIT_SCORE) {
+			System.out.println("MISSION SELECT SCREEN::Exit score");
+			scoreHUD.setAllButtonsVisible(false);
+			hud.setAllButtonsVisible(true);
+			SoundMaster.specialq = true;
+			action = Action.STEADY;
+			activeHUD = HUD.NORMAL;
+		} else if (action == Action.SCORE_SCOPE_GLOBAL) {
+			SoundMaster.specialq = true;
+			action = Action.STEADY;
+			scoreHUD.setGlobalScope();
+		} else if (action == Action.SCORE_SCOPE_LOCAL) {
+			SoundMaster.specialq = true;
+			action = Action.STEADY;
+			scoreHUD.setLocalScope();
+		} else if (action == Action.SELECT_SCORE) {
+			SoundMaster.specialq = true;
+			action = Action.STEADY;
+			scoreHUD.setSelectScreen();
 		}
 		soundMaster.update();
 	}
@@ -151,7 +190,11 @@ public class MissionSelectScreen implements Screen {
 		hud.dispose();
 	}
 	public Array<Button> getButtons(){
-		return hud.getButtons();
+		if (activeHUD == HUD.NORMAL) {
+			return hud.getButtons();
+		} else {
+			return scoreHUD.getButtons();
+		}
 	}
 	public void setAction(Action action) {
 		this.action = action;

@@ -25,9 +25,14 @@ public class BallRenderer implements FilledShapeRenderable, LineShapeRenderable,
 	private Array<Particle> particles;
 	private float particleTime = 0f;
 	
+	private boolean darkMode = false;
+	private int angleHalf, angleFull;
+	
 	private float cr, cg, cb;
 	
 	public BallRenderer (Ball ball){
+		this.angleHalf = 45;
+		this.angleFull = 90;
 		this.ball = ball;
 		this.texture = new Texture(Gdx.files.internal("img/balldraft.png"));
 		if (Global.getGameMode() == Global.MISSIONS) {
@@ -115,14 +120,22 @@ public class BallRenderer implements FilledShapeRenderable, LineShapeRenderable,
 			if (ball.hasInfector()) {
 				shaper.setColor(.8f, .8f, .8f, 1f);
 			} else {
-				shaper.setColor(Color.WHITE);
+				if (darkMode) {
+					shaper.setColor(color);
+				} else {
+					shaper.setColor(Color.WHITE);
+				}
 			}
 		} else {
-			shaper.setColor(Color.WHITE);
+			if (darkMode) {
+				shaper.setColor(color);
+			} else {
+				shaper.setColor(Color.WHITE);
+			}
 		}
 		for (int i = 0; i < shape.getAngles().length; i++){
 			shaper.arc(shape.getArcs().get(i).x, shape.getArcs().get(i).y
-					, shape.getRadiusShell(), shape.getAngles()[i] - 45, 90);
+					, shape.getRadiusShell(), shape.getAngles()[i] - angleHalf, angleFull);
 		}
 		if (Global.getGameMode() == Global.MISSIONS) {
 			if (Global.infectedLevel == 1) {
@@ -168,7 +181,7 @@ public class BallRenderer implements FilledShapeRenderable, LineShapeRenderable,
 		shaper.setColor(Color.BLACK);
 		for (int i = 0; i < shape.getAngles().length; i++){
 			shaper.arc(shape.getArcs().get(i).x, shape.getArcs().get(i).y
-					, shape.getRadiusShell(), shape.getAngles()[i] - 45, 90);
+					, shape.getRadiusShell(), shape.getAngles()[i] - angleHalf, angleFull);
 		}
 		
 	}
