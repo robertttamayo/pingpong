@@ -66,7 +66,7 @@ public class NetworkFetchScores {
 				String status = "cancelled";
 				System.out.println("ScoreMenuHUD::cancelled, status: " + status);
 			}
-	 });
+		});
 	}
 	public void setEnemiesScore(String enemiesScore) {
 		this.enemiesScore = enemiesScore;

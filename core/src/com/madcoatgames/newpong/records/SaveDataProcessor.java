@@ -17,6 +17,7 @@ public class SaveDataProcessor {
 	public static String internalSaveDataPathPrefix = "";
 
 	public static void processToFile(SaveData saveData){
+		System.out.println("SaveDataProcessor::Writing to file");
 //		/* // comment out this line for non-html builds
 		if (Gdx.app.getType() == ApplicationType.WebGL) {
 			return;

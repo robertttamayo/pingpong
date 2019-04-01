@@ -181,8 +181,18 @@ public class HUDRenderer implements Disposable{
 					);
 			fontCache.draw(batch);
 		}
+		boolean newPersonalRecord = false;
+		int currentPoints = SaveDataCache.getCurrentPoints(Global.getGameMode());
+		int personalRecord = Integer.parseInt(SaveDataCache.getHighestString(Global.getGameMode()));
+		if (currentPoints >= personalRecord) {
+			newPersonalRecord = true;
+		}
+		
 		message = "Your score: " + String.valueOf(SaveDataCache.getCurrentPoints(Global.getGameMode()));
-		message += "\nBest score so far: " + SaveDataCache.getHighestScoreThisGame(Global.getGameMode());
+//		message += "\nBest score so far: " + SaveDataCache.getHighestScoreThisGame(Global.getGameMode());
+		if (newPersonalRecord) {
+			message += "\nNew Personal Record!";
+		}
 		message += "\nRecord: " + SaveDataCache.getHighestString(Global.getGameMode());
 //		fontCache.addText("Your score: " + String.valueOf(SaveDataCache.getCurrentPoints()), 350, 350);
 //		fontCache.addText("Best score so far: " + SaveDataCache.getHighestScoreThisGame(), 350, 300);
