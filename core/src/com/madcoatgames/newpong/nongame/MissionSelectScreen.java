@@ -17,14 +17,18 @@ import com.madcoatgames.newpong.nongame.ui.HomeMenuHUD;
 import com.madcoatgames.newpong.nongame.ui.ModeMenuHUD;
 import com.madcoatgames.newpong.nongame.ui.ScoreMenuHUD;
 import com.madcoatgames.newpong.play.Button;
+import com.madcoatgames.newpong.records.SaveDataCache;
+import com.madcoatgames.newpong.records.SaveDataProcessor;
 import com.madcoatgames.newpong.rule.GameMaster;
 import com.madcoatgames.newpong.rule.InputMaster;
 import com.madcoatgames.newpong.rule.LogicMaster;
 import com.madcoatgames.newpong.rule.StarBackgroundMaster;
 import com.madcoatgames.newpong.util.Global;
 import com.madcoatgames.newpong.util.TriColorChanger;
+import com.madcoatgames.newpong.webutil.AsyncHandler;
+import com.madcoatgames.newpong.webutil.NetworkCheckUsername;
 
-public class MissionSelectScreen implements Screen {
+public class MissionSelectScreen implements Screen, TextInputHandler, AsyncHandler<Boolean> {
 	public enum Action {
 		ARCADE, BATTLE, STEADY, SCORE, EXIT_SCORE, SCORE_SCOPE_LOCAL, SCORE_SCOPE_GLOBAL, SELECT_SCORE
 	}
@@ -132,6 +136,9 @@ public class MissionSelectScreen implements Screen {
 			activeHUD = HUD.SCORES;
 			scoreHUD.setSelectScreen();
 			hud.setAllButtonsVisible(false);
+			if (Global.USER_NAME.equals("")) {
+				initInput();
+			}
 		} else if (action == Action.EXIT_SCORE) {
 			System.out.println("MISSION SELECT SCREEN::Exit score");
 			scoreHUD.setAllButtonsVisible(false);
@@ -205,5 +212,32 @@ public class MissionSelectScreen implements Screen {
 	public void setStarBg(StarBackgroundMaster starBg) {
 		this.starBg = starBg;
 	}
-
+	
+	private void initInput() {
+		RevolveTextInputer listener = new RevolveTextInputer(this);
+		Gdx.input.getTextInput(listener, "Enter your name", "", "Enter your name");
+	}
+	private void initInputInvalid() {
+		RevolveTextInputer listener = new RevolveTextInputer(this);
+		Gdx.input.getTextInput(listener, "Name already taken. Please try a different one", "", "Enter a different name");
+	}
+	@Override
+	public void handleTextInput(String text) {
+		Global.TEMP_USERNAME = text;
+		NetworkCheckUsername checker = new NetworkCheckUsername();
+		checker.fetch(this);
+	}
+	@Override
+	public void handle(Boolean isValid) {
+		if (isValid) {
+			Global.USER_NAME = Global.TEMP_USERNAME;
+			SaveDataCache.setUsername(Global.USER_NAME);
+			SaveDataProcessor.writeUsername(Global.USER_NAME);
+			scoreHUD.fetchUploadScores();
+		} else {
+			// TODO: Handle invalid username
+			System.out.println("NOT VALID");
+			initInputInvalid();
+		}
+	}
 }

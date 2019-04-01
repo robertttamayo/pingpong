@@ -178,7 +178,7 @@ public class GameMaster extends ScreenMaster implements TextInputHandler{
 		logic.setStarBg(this.starBg);
 	}
 	@Override
-	public void handle(String input) {
+	public void handleTextInput(String input) {
 		
 	}
 }

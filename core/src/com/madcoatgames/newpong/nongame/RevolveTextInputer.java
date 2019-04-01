@@ -17,7 +17,7 @@ public class RevolveTextInputer implements TextInputListener {
 			Global.USER_NAME = text;
 			System.out.println("RevolveTextInputer::username after: " + Global.USER_NAME);
 			if (handler != null) {
-				handler.handle(text);
+				handler.handleTextInput(text);
 			}
 		}
 

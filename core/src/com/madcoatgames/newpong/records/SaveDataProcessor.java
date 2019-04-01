@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.SerializationException;
 import com.madcoatgames.newpong.NewPong;
+import com.madcoatgames.newpong.util.Global;
 
 public class SaveDataProcessor {
 	public static String externalSaveDataPathPrefix = "MadCoatPingPong/gamedata/";
@@ -22,11 +23,13 @@ public class SaveDataProcessor {
 		}
 		Array<Score> scores = SaveDataCache.getScores();
 		Array<Score> enemyScores = SaveDataCache.getEnemyScores();
+		String username = SaveDataCache.getUsername();
+		
 		FileHandle file;
 		file = Gdx.files.local(NewPong.jsonFile + ".txt");
 		file.delete();
 		if (!file.exists()){
-			System.out.println("file no exist");
+			System.out.println("file does not exist");
 			File maker = file.file();
 			try {
 				maker.createNewFile();
@@ -62,22 +65,32 @@ public class SaveDataProcessor {
 		saveData.enemyScores.addAll(enemyScores);
 		saveData.enemyScores.sort();
 		
+		if (!Global.USER_NAME.equals("")) {
+			saveData.username = Global.USER_NAME;
+		}
+		
 		Json json = new Json();
 		String saveScores = json.toJson(saveData);
 		file.writeString(saveScores, false);
 		if (!file.exists()){
 			System.out.println("file still no exist");
 		} else {
-			System.out.println(file.readString());
+			System.out.println("SaveDataProcessor::" + file.readString());
 		}
 		System.out.println(file.path());
 //		*/ // comment out this line for non-html builds
+	}
+	public static void writeUsername(String username) {
+		SaveData saveData = generateScores();
+		saveData.username = username;
+		processToFile(saveData);
 	}
 	public static SaveData generateScores(){
 		boolean isDesktop = (Gdx.app.getType() == ApplicationType.Desktop);
 
 		Array<Score> scores = new Array<Score>();
 		Array<Score> enemyScores = new Array<Score>();
+		String username = "";
 		SaveData saveData;
 		if (Gdx.app.getType() == ApplicationType.WebGL) {
 			saveData = new SaveData();
@@ -112,6 +125,7 @@ public class SaveDataProcessor {
 			saveData = new SaveData();
 			saveData.scores = new Array<Score>();
 			saveData.enemyScores = new Array<Score>();
+			saveData.username = Global.USER_NAME;
 		} else {
 			if (saveData.scores != null) {
 				scores = saveData.scores;
@@ -122,6 +136,10 @@ public class SaveDataProcessor {
 				enemyScores = saveData.enemyScores;
 			} else {
 				enemyScores = new Array<Score>();
+			}
+			if (!saveData.username.equals("")) {
+				username = saveData.username;
+				Global.USER_NAME = saveData.username;
 			}
 		}
 		//*/

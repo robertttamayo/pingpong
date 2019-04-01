@@ -9,6 +9,7 @@ public class SaveDataCache {
 	private static int highestScoreThisGameArcade = 0;
 	private static int highestScoreThisGameEnemies = 0;
 	private static int currentPoints = 0;
+	private static String username = "";
 	
 	public SaveDataCache(){
 		scores = new Array<Score>();
@@ -33,6 +34,9 @@ public class SaveDataCache {
 				highestScoreThisGameEnemies = currentPoints;
 			}
 		}
+	}
+	public static void setUsername(String _username) {
+		username = _username;
 	}
 	public static Score createScore(int score, String name, int type){
 		return new Score(score, name, type);
@@ -74,5 +78,8 @@ public class SaveDataCache {
 			break;
 		}
 		return gameModeHighestScoreThisGame;
+	}
+	public static String getUsername() {
+		return username;
 	}
 }

@@ -16,7 +16,7 @@ public class ScoreMenuHUDPlacement {
 		frame.setSize(4f*Global.width()/5f, .8f*Global.height());
 		frame.setPosition(0 + (Global.width() - frame.width)/2f, 60f + (Global.height() - frame.height)/2f);
 		
-		Button title, arcade, battle, score;
+		Button title, arcade, battle, score, subtitle;
 		
 		title = getButtonByType(buttons, ButtonType.TITLE);
 		
@@ -28,6 +28,18 @@ public class ScoreMenuHUDPlacement {
 			title.setPaddingRight(0f);
 			title.setPaddingTop(0f);
 			title.setPaddingBottom(0f);
+		}
+		
+		subtitle = getButtonByType(buttons, ButtonType.SUBTITLE);
+		
+		if (subtitle != null) {
+			subtitle.setSize(frame.width, .8f*frame.height);
+			subtitle.setPosition(frame.x, Global.centerHeight() + 50f);
+			
+			subtitle.setPaddingLeft(0f);
+			subtitle.setPaddingRight(0f);
+			subtitle.setPaddingTop(0f);
+			subtitle.setPaddingBottom(0f);
 		}
 		
 		arcade = getButtonByType(buttons, ButtonType.SCORE_SCOPE_LOCAL);

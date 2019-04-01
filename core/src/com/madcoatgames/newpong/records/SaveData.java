@@ -7,5 +7,6 @@ public class SaveData {
 	
 	Array<Score> scores = new Array<Score>();
 	Array<Score> enemyScores = new Array<Score>();
+	String username = "";
 }
 

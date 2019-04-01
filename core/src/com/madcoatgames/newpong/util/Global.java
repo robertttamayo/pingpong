@@ -41,6 +41,8 @@ public class Global {
 	public static int infectedLevel = 1;
 	
 	public static String USER_NAME = "";
+	public static String TEMP_USERNAME = "";
+	public static String APP_VERSION = "1.2";
 
 	public static float width() {
 		return width;
