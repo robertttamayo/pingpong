@@ -101,6 +101,9 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 		saveDataCache = new SaveDataCache();
 		saveDataProcessor = new SaveDataProcessor();
 		
+		/** Warning! Uncommenting the next line will erase score data! */
+//		SaveDataProcessor.eraseScoreData();
+		
 		soloMessage = "Solo\n\n";
 		Array<Score> scores = SaveDataCache.getScores();
 		for (int i = scores.size - 1, j = 1; i >= scores.size - 10; i--, j++) {
@@ -433,9 +436,16 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 		int currentSoloScore = -1;
 		int enemiesCount = 1;
 		int soloCount = 1;
+		boolean worldRecordEnemiesSet = false;
+		boolean worldRecordSoloSet = false;
+		
 		for (int i = 0; i < array.size; i++) {
 			RemoteScore score = array.get(i);
 			if (score.mode.equals("enemies")) {
+				if (!worldRecordEnemiesSet) {
+					worldRecordEnemiesSet = true;
+					Global.worldRecordEnemies = score.score;
+				}
 				if (enemiesCount >= 10) {
 					continue;
 				}
@@ -446,6 +456,10 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 				globalEnemiesMessage += enemiesPlace + ". " + score.score + " – " + score.username + "\n";
 				enemiesCount++;
 			} else {
+				if (!worldRecordSoloSet) {
+					worldRecordSoloSet = true;
+					Global.worldRecordSolo = score.score;
+				}
 				if (soloCount >= 10) {
 					continue;
 				}

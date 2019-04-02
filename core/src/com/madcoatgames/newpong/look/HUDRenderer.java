@@ -188,12 +188,23 @@ public class HUDRenderer implements Disposable{
 			newPersonalRecord = true;
 		}
 		
+		int worldRecord = 0;
+		if (Global.getGameMode() == Global.ARCADE) {
+			worldRecord = Global.worldRecordSolo;
+		} else {
+			worldRecord = Global.worldRecordEnemies;
+		}
+
 		message = "Your score: " + String.valueOf(SaveDataCache.getCurrentPoints(Global.getGameMode()));
 //		message += "\nBest score so far: " + SaveDataCache.getHighestScoreThisGame(Global.getGameMode());
 		if (newPersonalRecord) {
 			message += "\nNew Personal Record!";
+		} else {
+			message += "\nYour Record: " + SaveDataCache.getHighestString(Global.getGameMode());
 		}
-		message += "\nRecord: " + SaveDataCache.getHighestString(Global.getGameMode());
+		if (worldRecord != 0) {
+			message += "\nWorld Record: " + worldRecord;
+		}
 //		fontCache.addText("Your score: " + String.valueOf(SaveDataCache.getCurrentPoints()), 350, 350);
 //		fontCache.addText("Best score so far: " + SaveDataCache.getHighestScoreThisGame(), 350, 300);
 //		fontCache.addText("Record: " + SaveDataCache.getHighestString(), 350, 250);

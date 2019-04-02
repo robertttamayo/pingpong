@@ -43,6 +43,9 @@ public class Global {
 	public static String USER_NAME = "";
 	public static String TEMP_USERNAME = "";
 	public static String APP_VERSION = "1.2";
+	
+	public static int worldRecordEnemies = 0;
+	public static int worldRecordSolo = 0;
 
 	public static float width() {
 		return width;

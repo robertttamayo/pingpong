@@ -103,7 +103,11 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 				int personalRecord = Integer.parseInt(SaveDataCache.getHighestString(Global.getGameMode()));
 				if (currentPoints >= personalRecord) {
 					save();
-					initTextInput("New Personal Record: " + currentPoints + "!");
+					if (Global.USER_NAME.equals("")) {
+						initTextInput("New Personal Record: " + currentPoints + "!");
+					} else {
+						uploadScores();
+					}
 				}
 			}
 		} else if (MenuOperator.getType() == MenuOperator.SHUTDOWN) {
@@ -205,7 +209,6 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 			uploadScores();
 		} else {
 			// TODO: Handle invalid username
-			System.out.println("NOT VALID");
 			initInputInvalid();
 		}
 	}

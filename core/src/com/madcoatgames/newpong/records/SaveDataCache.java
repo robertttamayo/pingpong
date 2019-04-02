@@ -49,13 +49,25 @@ public class SaveDataCache {
 		
 		switch (gameMode) {
 		case Global.ARCADE:
-			highest = String.valueOf(scores.peek().getPoints());
+			if (scores.size != 0) {
+				highest = String.valueOf(scores.peek().getPoints());
+			} else {
+				highest = "0";
+			}
 			break;
 		case Global.MISSIONS:
-			highest = String.valueOf(enemyScores.peek().getPoints());
+			if (enemyScores.size != 0) {
+				highest = String.valueOf(enemyScores.peek().getPoints());
+			} else {
+				highest = "0";
+			}
 			break;
 		default:
-			highest = String.valueOf(scores.peek().getPoints());
+			if (scores.size != 0) {
+				highest = String.valueOf(scores.peek().getPoints());
+			} else {
+				highest = "0";
+			}
 		}
 
 		return highest;

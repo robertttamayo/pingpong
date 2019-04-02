@@ -16,6 +16,33 @@ public class SaveDataProcessor {
 	public static String externalSaveDataPathPrefix = "MadCoatPingPong/gamedata/";
 	public static String internalSaveDataPathPrefix = "";
 
+	public static void eraseScoreData() {
+		System.out.println("SaveDataProcessor::Erasing score data");
+		SaveData restartData = new SaveData();
+		restartData.username = Global.USER_NAME;
+		
+		FileHandle file;
+		file = Gdx.files.local(NewPong.jsonFile + ".txt");
+		file.delete();
+		if (!file.exists()){
+			System.out.println("SaveDataProcessor::file has been erased");
+			File maker = file.file();
+			try {
+				maker.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			file = new FileHandle(maker);
+		}
+		Json json = new Json();
+		String saveScores = json.toJson(restartData);
+		file.writeString(saveScores, false);
+		if (!file.exists()){
+			System.out.println("SaveDataProcessor::unable to write file");
+		} else {
+			System.out.println("SaveDataProcessor::file written successfully");
+		}
+	}
 	public static void processToFile(SaveData saveData){
 		System.out.println("SaveDataProcessor::Writing to file");
 //		/* // comment out this line for non-html builds
@@ -30,7 +57,7 @@ public class SaveDataProcessor {
 		file = Gdx.files.local(NewPong.jsonFile + ".txt");
 		file.delete();
 		if (!file.exists()){
-			System.out.println("file does not exist");
+			System.out.println("SaveDataProcessor::file deleted successfully");
 			File maker = file.file();
 			try {
 				maker.createNewFile();
@@ -74,9 +101,9 @@ public class SaveDataProcessor {
 		String saveScores = json.toJson(saveData);
 		file.writeString(saveScores, false);
 		if (!file.exists()){
-			System.out.println("file still no exist");
+			System.out.println("SaveDataProcessor::unable to write file");
 		} else {
-			System.out.println("SaveDataProcessor::" + file.readString());
+			System.out.println("SaveDataProcessor::file written successfully");
 		}
 		System.out.println(file.path());
 //		*/ // comment out this line for non-html builds
@@ -117,7 +144,7 @@ public class SaveDataProcessor {
 			}
 		}
 		String data = file.readString();
-		System.out.println(file.readString());
+//		System.out.println(file.readString());
 		saveData = json.fromJson(
 				SaveData.class
 				, data);
