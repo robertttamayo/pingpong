@@ -168,12 +168,18 @@ public class SaveDataProcessor {
 		} else {
 			if (saveData.scores != null) {
 //				System.out.println("SaveDataProcessor::Scores size: " + saveData.scores.size);
+				while(saveData.scores.size > 10) { // fix for bug in earlier release
+					saveData.scores.removeIndex(0);
+				}
 				scores = saveData.scores;
 			} else {
 				scores = new Array<Score>();
 			}
 			if (saveData.enemyScores != null) {
 //				System.out.println("SaveDataProcessor::Enemy Scores size: " + saveData.enemyScores.size);
+				while(saveData.enemyScores.size > 10) {
+					saveData.enemyScores.removeIndex(0);
+				}
 				enemyScores = saveData.enemyScores;
 			} else {
 				enemyScores = new Array<Score>();
