@@ -470,7 +470,7 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 					soloPlace++;
 				}
 				globalSoloMessage += soloPlace + ". " + score.score + " – " + score.username + "\n";
-				soloCount = 1;
+				soloCount++;
 			}
 		}
 //		System.out.println("ScoreMenuHUD::Global solo scores: " + globalSoloMessage);

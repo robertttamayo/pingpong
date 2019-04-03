@@ -37,6 +37,12 @@ public class SaveDataCache {
 				highestScoreThisGameEnemies = currentPoints;
 			}
 		}
+		while(saveData.scores.size > 10) {
+			saveData.scores.removeIndex(0);
+		}
+		while(saveData.enemyScores.size > 10) {
+			saveData.enemyScores.removeIndex(0);
+		}
 		
 		SaveDataProcessor.processToFile();
 	}
@@ -78,11 +84,9 @@ public class SaveDataCache {
 		return highest;
 	}
 	public static Array<Score> getScores(){
-//		System.out.println("saveData.score size: " + saveData.scores.size);
 		return saveData.scores;
 	}
 	public static Array<Score> getEnemyScores(){
-//		System.out.println("saveData.enemy score size: " + saveData.enemyScores.size);
 		return saveData.enemyScores;
 	}
 
