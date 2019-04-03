@@ -29,13 +29,13 @@ public class NewPong extends Game implements StateUpdateable{
 	public void create () {
 		System.out.println("NewPong::create() called");
 		Global.initialize();
-		saveData = new SaveData();
+//		saveData = new SaveData();
 		//gm = new GameMaster(this);
 		ms = new MainScreen(this);
 		setScreen(ms);
 	}
 	public SaveData getSaveData(){
-		return saveData;
+		return null;
 	}
 	@Override
 	public void onGameOver(){

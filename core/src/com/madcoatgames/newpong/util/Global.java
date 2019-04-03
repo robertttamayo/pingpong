@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 public class Global {
-	public static final int ARCADE = 0;
+	public static final int ARCADE = 2;
 	public static final int MISSIONS = 1;
 	
 	public static int CONTINUES = 3;

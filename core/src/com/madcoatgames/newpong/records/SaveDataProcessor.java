@@ -16,8 +16,10 @@ public class SaveDataProcessor {
 	public static String externalSaveDataPathPrefix = "MadCoatPingPong/gamedata/";
 	public static String internalSaveDataPathPrefix = "";
 
+	private SaveDataProcessor() {}
+	
 	public static void eraseScoreData() {
-		System.out.println("SaveDataProcessor::Erasing score data");
+//		System.out.println("SaveDataProcessor::Erasing score data");
 		SaveData restartData = new SaveData();
 		restartData.username = Global.USER_NAME;
 		
@@ -25,7 +27,7 @@ public class SaveDataProcessor {
 		file = Gdx.files.local(NewPong.jsonFile + ".txt");
 		file.delete();
 		if (!file.exists()){
-			System.out.println("SaveDataProcessor::file has been erased");
+//			System.out.println("SaveDataProcessor::file has been erased");
 			File maker = file.file();
 			try {
 				maker.createNewFile();
@@ -35,29 +37,38 @@ public class SaveDataProcessor {
 			file = new FileHandle(maker);
 		}
 		Json json = new Json();
-		String saveScores = json.toJson(restartData);
+		String saveScores = json.toJson(restartData, SaveData.class);
 		file.writeString(saveScores, false);
 		if (!file.exists()){
-			System.out.println("SaveDataProcessor::unable to write file");
+//			System.out.println("SaveDataProcessor::unable to write file");
 		} else {
-			System.out.println("SaveDataProcessor::file written successfully");
+//			System.out.println("SaveDataProcessor::file written successfully");
 		}
 	}
-	public static void processToFile(SaveData saveData){
-		System.out.println("SaveDataProcessor::Writing to file");
+	public static void processToFile(){
+//		System.out.println("SaveDataProcessor::Writing to file");
+		SaveData saveData = SaveDataCache.saveData;
 //		/* // comment out this line for non-html builds
 		if (Gdx.app.getType() == ApplicationType.WebGL) {
 			return;
 		}
-		Array<Score> scores = SaveDataCache.getScores();
-		Array<Score> enemyScores = SaveDataCache.getEnemyScores();
+		Array<Score> scores = new Array<Score>();
+//		System.out.println("SaveDataProcessor::Save data cache size of scores: " + SaveDataCache.getScores().size);
+		scores.addAll(SaveDataCache.getScores());
+		
+		Array<Score> enemyScores = new Array<Score>();
+//		System.out.println("SaveDataProcessor::Save data cache size of enemyscores: " + SaveDataCache.getEnemyScores().size);
+		enemyScores.addAll(SaveDataCache.getEnemyScores());
+		
 		String username = SaveDataCache.getUsername();
+		SaveDataCache.getScores().clear();
+		SaveDataCache.getEnemyScores().clear();
 		
 		FileHandle file;
 		file = Gdx.files.local(NewPong.jsonFile + ".txt");
 		file.delete();
 		if (!file.exists()){
-			System.out.println("SaveDataProcessor::file deleted successfully");
+//			System.out.println("SaveDataProcessor::file deleted successfully");
 			File maker = file.file();
 			try {
 				maker.createNewFile();
@@ -76,19 +87,19 @@ public class SaveDataProcessor {
 			}
 		}
 		scores.removeAll(badScores, true);
-		badScores.clear();
 		
 		saveData.scores.addAll(scores);
 		saveData.scores.sort();
 		
+		Array<Score> enemyBadScores = new Array<Score>();
 		for (Score score : enemyScores) {
 			if (score.getName().equals("default value")) {
-				badScores.add(score);
+				enemyBadScores.add(score);
 			} else if (score.getPoints() == 0) {
-				badScores.add(score);
+				enemyBadScores.add(score);
 			}
 		}
-		enemyScores.removeAll(badScores, true);
+		enemyScores.removeAll(enemyBadScores, true);
 
 		saveData.enemyScores.addAll(enemyScores);
 		saveData.enemyScores.sort();
@@ -98,22 +109,22 @@ public class SaveDataProcessor {
 		}
 		
 		Json json = new Json();
-		String saveScores = json.toJson(saveData);
+		String saveScores = json.toJson(saveData, SaveData.class);
 		file.writeString(saveScores, false);
 		if (!file.exists()){
-			System.out.println("SaveDataProcessor::unable to write file");
+//			System.out.println("SaveDataProcessor::unable to write file");
 		} else {
-			System.out.println("SaveDataProcessor::file written successfully");
+//			System.out.println("SaveDataProcessor::file written successfully");
 		}
-		System.out.println(file.path());
+//		System.out.println(file.path());
+//		System.out.println(json.prettyPrint(saveData));
 //		*/ // comment out this line for non-html builds
 	}
 	public static void writeUsername(String username) {
-		SaveData saveData = generateScores();
-		saveData.username = username;
-		processToFile(saveData);
+		processToFile();
 	}
 	public static SaveData generateScores(){
+//		System.out.println("SaveDataProcessor::generating scores");
 		boolean isDesktop = (Gdx.app.getType() == ApplicationType.Desktop);
 
 		Array<Score> scores = new Array<Score>();
@@ -137,7 +148,7 @@ public class SaveDataProcessor {
 				tempFile.createNewFile();
 				file = new FileHandle(tempFile);
 				SaveData errorData = new SaveData();
-				String errorString = json.toJson(errorData); //this will write an empty (default) Json file with no game data
+				String errorString = json.toJson(errorData, SaveData.class); //this will write an empty (default) Json file with no game data
 				file.writeString(errorString, false);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -156,11 +167,13 @@ public class SaveDataProcessor {
 			saveData.username = Global.USER_NAME;
 		} else {
 			if (saveData.scores != null) {
+//				System.out.println("SaveDataProcessor::Scores size: " + saveData.scores.size);
 				scores = saveData.scores;
 			} else {
 				scores = new Array<Score>();
 			}
 			if (saveData.enemyScores != null) {
+//				System.out.println("SaveDataProcessor::Enemy Scores size: " + saveData.enemyScores.size);
 				enemyScores = saveData.enemyScores;
 			} else {
 				enemyScores = new Array<Score>();

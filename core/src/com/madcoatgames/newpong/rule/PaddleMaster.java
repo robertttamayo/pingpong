@@ -62,8 +62,8 @@ public class PaddleMaster {
 
 	private void initPaddlePosition() {
 		rPaddle.setPosition(Global.width() - rPaddle.width,
-				Global.centerHeight());
-		lPaddle.setPosition(0, Global.centerHeight());
+				Global.centerHeight() - rPaddle.height/2f);
+		lPaddle.setPosition(0, Global.centerHeight() - lPaddle.height/2f);
 	}
 
 }

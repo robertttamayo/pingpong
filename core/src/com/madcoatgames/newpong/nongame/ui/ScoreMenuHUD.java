@@ -98,14 +98,15 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 	public ScoreMenuHUD(){
 		fetchScores();
 		
-		saveDataCache = new SaveDataCache();
-		saveDataProcessor = new SaveDataProcessor();
+//		saveDataProcessor = new SaveDataProcessor();
+		SaveDataCache.init();
 		
 		/** Warning! Uncommenting the next line will erase score data! */
 //		SaveDataProcessor.eraseScoreData();
 		
 		soloMessage = "Solo\n\n";
 		Array<Score> scores = SaveDataCache.getScores();
+		System.out.println("ScoreMenuHUD::scores size: " + scores.size);
 		for (int i = scores.size - 1, j = 1; i >= scores.size - 10; i--, j++) {
 			if (i < 0) {
 				break;
@@ -115,6 +116,7 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 		
 		enemiesMessage = "Enemies\n\n";
 		Array<Score> enemyScores = SaveDataCache.getEnemyScores();
+		System.out.println("ScoreMenuHUD::enemy scores size: " + enemyScores.size);
 		for (int i = enemyScores.size - 1, j = 1; i >= enemyScores.size - 10; i--, j++) {
 			if (i < 0) {
 				break;

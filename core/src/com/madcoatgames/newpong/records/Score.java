@@ -2,8 +2,8 @@ package com.madcoatgames.newpong.records;
 
 public class Score implements Comparable<Score>{
 	private int points;
-	private String name;
 	private int type = 0;
+	private String name;
 	
 	public Score(){
 		points = 0; 

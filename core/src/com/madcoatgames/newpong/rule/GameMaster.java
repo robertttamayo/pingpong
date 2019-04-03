@@ -64,8 +64,8 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 		sm = new SoundMaster();
 		hr = new HUDRenderer();
 		textureManager = new TextureManager();
-		saveDataCache = new SaveDataCache();
-		saveDataProcessor = new SaveDataProcessor();
+//		SaveDataProcessor();
+		SaveDataCache.init();
 		
 		cam.setToOrtho(false, (int)Global.width(), (int)Global.height());
 		shaper.setProjectionMatrix(cam.combined);
@@ -112,7 +112,7 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 			}
 		} else if (MenuOperator.getType() == MenuOperator.SHUTDOWN) {
 			MenuOperator.start();
-			System.out.println("GameScreen::setting screen to HomeScreen");
+//			System.out.println("GameScreen::setting screen to HomeScreen");
 			mm.stopAndLoadNewTrack(MusicMaster.Track.MENU);
 			HomeScreen mss = new HomeScreen(this.game, this.mm);
 			mss.setStarBg(new StarBackgroundMaster((int) Global.width(), (int) Global.height()));
@@ -167,7 +167,7 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		SaveDataProcessor.processToFile(((NewPong) game).getSaveData());
+		save();
 	}
 
 	@Override
@@ -182,7 +182,8 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 		
 	}
 	public void save(){
-		SaveDataProcessor.processToFile(((NewPong) game).getSaveData());
+//		SaveDataProcessor.processToFile(((NewPong) game).getSaveData());
+		SaveDataProcessor.processToFile();
 	}
 	public TriColorChanger getTriColorChanger(){
 		return logic.getTcc();

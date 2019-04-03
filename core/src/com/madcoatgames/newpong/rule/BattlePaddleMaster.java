@@ -8,7 +8,7 @@ import com.madcoatgames.newpong.util.Global;
 
 public class BattlePaddleMaster {
 	
-	private int playerHealth = 5;
+	private int playerHealth = 1;
 	private final int maxPlayerHealth = 5;
 	private boolean playerLose = false;
 	

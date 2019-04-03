@@ -10,30 +10,35 @@ public class SaveDataCache {
 	private static int highestScoreThisGameEnemies = 0;
 	private static int currentPoints = 0;
 	private static String username = "";
+	public static SaveData saveData;
 	
-	public SaveDataCache(){
-		scores = new Array<Score>();
-		enemyScores = new Array<Score>();
-		SaveData saveData = SaveDataProcessor.generateScores();
-		scores.addAll(saveData.scores);
-		enemyScores.addAll(saveData.enemyScores);
+	private SaveDataCache(){}
+	
+	public static void init() {
+		saveData = SaveDataProcessor.generateScores();
+		scores = saveData.scores;
+		enemyScores = saveData.enemyScores;
 	}
 	
 	public static void addScore(Score score){
+		System.out.println("SaveDataCache::Adding score");
 		currentPoints = score.getPoints();
+		
 		if (score.getType() == Global.ARCADE) {
-			scores.add(score);
-			scores.sort();
+			saveData.scores.add(score);
+			saveData.scores.sort();
 			if (currentPoints >= highestScoreThisGameArcade){
 				highestScoreThisGameArcade = currentPoints;
 			}
 		} else {
-			enemyScores.add(score);
-			enemyScores.sort();
+			saveData.enemyScores.add(score);
+			saveData.enemyScores.sort();
 			if (currentPoints >= highestScoreThisGameEnemies){
 				highestScoreThisGameEnemies = currentPoints;
 			}
 		}
+		
+		SaveDataProcessor.processToFile();
 	}
 	public static void setUsername(String _username) {
 		username = _username;
@@ -49,21 +54,21 @@ public class SaveDataCache {
 		
 		switch (gameMode) {
 		case Global.ARCADE:
-			if (scores.size != 0) {
-				highest = String.valueOf(scores.peek().getPoints());
+			if (saveData.scores.size != 0) {
+				highest = String.valueOf(saveData.scores.peek().getPoints());
 			} else {
 				highest = "0";
 			}
 			break;
 		case Global.MISSIONS:
 			if (enemyScores.size != 0) {
-				highest = String.valueOf(enemyScores.peek().getPoints());
+				highest = String.valueOf(saveData.enemyScores.peek().getPoints());
 			} else {
 				highest = "0";
 			}
 			break;
 		default:
-			if (scores.size != 0) {
+			if (saveData.scores.size != 0) {
 				highest = String.valueOf(scores.peek().getPoints());
 			} else {
 				highest = "0";
@@ -73,10 +78,12 @@ public class SaveDataCache {
 		return highest;
 	}
 	public static Array<Score> getScores(){
-		return scores;
+//		System.out.println("saveData.score size: " + saveData.scores.size);
+		return saveData.scores;
 	}
 	public static Array<Score> getEnemyScores(){
-		return enemyScores;
+//		System.out.println("saveData.enemy score size: " + saveData.enemyScores.size);
+		return saveData.enemyScores;
 	}
 
 	public static int getHighestScoreThisGame(int gameMode) {
