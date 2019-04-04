@@ -14,6 +14,7 @@ public class RevolveTextInputer implements TextInputListener {
 		}
 		@Override
 		public void input (String text) {
+			Global.textInputActive = false;
 			Global.USER_NAME = text;
 			System.out.println("RevolveTextInputer::username after: " + Global.USER_NAME);
 			if (handler != null) {
@@ -23,6 +24,6 @@ public class RevolveTextInputer implements TextInputListener {
 
 		@Override
 		public void canceled () {
-			
+			Global.textInputActive = false;
 		}
 }

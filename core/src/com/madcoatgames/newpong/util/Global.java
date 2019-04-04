@@ -30,6 +30,9 @@ public class Global {
 	public static final Color c3 = new Color();
 	public static final Color c4 = new Color();
 	
+	// text input mode
+	public static boolean textInputActive = false;
+	
 	private static boolean canInitialize = true;
 	
 	public static float electricutedPeriod = 1.2f;

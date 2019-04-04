@@ -111,10 +111,12 @@ public class MissionSelectScreen implements Screen, TextInputHandler, AsyncHandl
 		starBg.renderFilled(shaper);
 		shaper.end();
 		
-		if (activeHUD == HUD.NORMAL) {
-			hud.draw(tcc, batch, shaper);
-		} else {
-			scoreHUD.draw(tcc, batch, shaper);
+		if (!Global.textInputActive) {
+			if (activeHUD == HUD.NORMAL) {
+				hud.draw(tcc, batch, shaper);
+			} else {
+				scoreHUD.draw(tcc, batch, shaper);
+			}
 		}
 		
 		if (action == Action.ARCADE){
@@ -215,17 +217,26 @@ public class MissionSelectScreen implements Screen, TextInputHandler, AsyncHandl
 	
 	private void initInput() {
 		RevolveTextInputer listener = new RevolveTextInputer(this);
-		Gdx.input.getTextInput(listener, "Enter your name", "", "Enter your name");
+		Gdx.input.getTextInput(listener, "Enter your name", "", "Your name");
 	}
 	private void initInputInvalid() {
 		RevolveTextInputer listener = new RevolveTextInputer(this);
-		Gdx.input.getTextInput(listener, "Name already taken. Please try a different one", "", "Enter a different name");
+		Gdx.input.getTextInput(listener, "Name already taken. Please try a different one", "", "Choose a different name");
 	}
 	@Override
 	public void handleTextInput(String text) {
+		System.out.println(text.length());
+		if (text.length() > 12) {
+			initInputTooLong();
+			return;
+		}
 		Global.TEMP_USERNAME = text;
 		NetworkCheckUsername checker = new NetworkCheckUsername();
 		checker.fetch(this);
+	}
+	private void initInputTooLong() {
+		RevolveTextInputer listener = new RevolveTextInputer(this);
+		Gdx.input.getTextInput(listener, "Name too long. Must be 12 characters or less", "", "Your name. 12 characters or less");
 	}
 	@Override
 	public void handle(Boolean isValid) {

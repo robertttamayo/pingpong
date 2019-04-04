@@ -75,11 +75,17 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 	private SaveDataCache saveDataCache;
 	private SaveDataProcessor saveDataProcessor;
 	private String soloMessage;
+	private String soloScores;
 	private String enemiesMessage;
+	private String enemiesScores;
 	
 	private String globalSoloMessage = "";
+	private String globalSoloNames = "";
+	private String globalSoloScores = "";
+
 	private String globalEnemiesMessage = "";
-//	private RemoteScores remoteScores;
+	private String globalEnemiesNames = "";
+	private String globalEnemiesScores = "";
 	
 	private FontSizeTimer fst = new FontSizeTimer();
 	
@@ -96,34 +102,45 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 	public boolean selectScreen = true;
 	
 	public ScoreMenuHUD(){
-		fetchScores();
-		
 //		saveDataProcessor = new SaveDataProcessor();
 		SaveDataCache.init();
+		if (!Global.USER_NAME.equals("")) {
+			fetchScores();
+		} else {
+			// need the username to upload scores
+			fetchUploadScores();
+		}
+		
+//		Global.USER_NAME = "Robert";
+//		SaveDataProcessor.writeUsername(Global.USER_NAME);
 		
 		/** Warning! Uncommenting the next line will erase score data! */
 //		SaveDataProcessor.eraseScoreData();
 		
 		soloMessage = "Solo\n\n";
+		soloScores = "\n\n";
 		Array<Score> scores = SaveDataCache.getScores();
 		System.out.println("ScoreMenuHUD::scores size: " + scores.size);
 		for (int i = scores.size - 1, j = 1; i >= scores.size - 10; i--, j++) {
 			if (i < 0) {
 				break;
 			}
-			soloMessage += Integer.toString(j) + ".    " + scores.get(i).getPoints() + "\n";
+			soloMessage += Integer.toString(j) + ".\n";
+			soloScores += scores.get(i).getPoints() + "\n";
 		}
 		
 		enemiesMessage = "Enemies\n\n";
+		enemiesScores = "\n\n";
 		Array<Score> enemyScores = SaveDataCache.getEnemyScores();
 		System.out.println("ScoreMenuHUD::enemy scores size: " + enemyScores.size);
 		for (int i = enemyScores.size - 1, j = 1; i >= enemyScores.size - 10; i--, j++) {
 			if (i < 0) {
 				break;
 			}
-			enemiesMessage += Integer.toString(j) + ".    " + enemyScores.get(i).getPoints() + "\n";
+			enemiesMessage += Integer.toString(j) + ".\n";
+			enemiesScores += enemyScores.get(i).getPoints() + "\n";
 		}
-
+		
 		titleButton = new Button(ButtonType.TITLE);
 		arcadeButton = new Button(ButtonType.MODE_ARCADE);
 		battleButton = new Button(ButtonType.MODE_BATTLE);
@@ -297,9 +314,14 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 		fontCache.getFont().getData().setScale(.62f);
 		fontCache.setColor(tcc.c3);
 		
-		fontCache.setText(soloMessage, Global.width()/2f - 150f, Global.centerHeight() + 180f);
+		fontCache.setText(soloMessage, Global.width()/2f - 175f, Global.centerHeight() + 180f);
 		fontCache.draw(batch);
-		fontCache.setText(enemiesMessage, Global.width()/2f + 50f, Global.centerHeight() + 180f);
+		fontCache.setText(soloScores, Global.width()/2f - 100f, Global.centerHeight() + 180f);
+		fontCache.draw(batch);
+		
+		fontCache.setText(enemiesMessage, Global.width()/2f + 75f, Global.centerHeight() + 180f);
+		fontCache.draw(batch);
+		fontCache.setText(enemiesScores, Global.width()/2f + 150f, Global.centerHeight() + 180f);
 		fontCache.draw(batch);
 		
 		fontCache.getFont().getData().setScale(1f);
@@ -351,9 +373,18 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 		fontCache.getFont().getData().setScale(.62f);
 		fontCache.setColor(tcc.c3);
 		
-		fontCache.setText(globalSoloMessage, Global.width()/2f - 250f, Global.centerHeight() + 180f);
+		fontCache.setText(globalSoloMessage, Global.width()/2f - 300f, Global.centerHeight() + 180f);
 		fontCache.draw(batch);
+		fontCache.setText(globalSoloScores, Global.width()/2f - 250f, Global.centerHeight() + 180f);
+		fontCache.draw(batch);
+		fontCache.setText(globalSoloNames, Global.width()/2f - 175f, Global.centerHeight() + 180f);
+		fontCache.draw(batch);
+		
 		fontCache.setText(globalEnemiesMessage, Global.width()/2f + 100f, Global.centerHeight() + 180f);
+		fontCache.draw(batch);
+		fontCache.setText(globalEnemiesScores, Global.width()/2f + 150f, Global.centerHeight() + 180f);
+		fontCache.draw(batch);
+		fontCache.setText(globalEnemiesNames, Global.width()/2f + 225f, Global.centerHeight() + 180f);
 		fontCache.draw(batch);
 		
 		fontCache.getFont().getData().setScale(1f);
@@ -431,7 +462,12 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 	public void handle(Array<RemoteScore> array) {
 		Json json = new Json();
 		globalEnemiesMessage = "Enemies\n\n";
+		globalEnemiesScores = "\n\n";
+		globalEnemiesNames = "\n\n";
+		
 		globalSoloMessage = "Solo\n\n";
+		globalSoloScores = "\n\n";
+		globalSoloNames = "\n\n";
 		int enemiesPlace = 0;
 		int soloPlace = 0;
 		int currentEnemiesScore = -1;
@@ -455,7 +491,9 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 					currentEnemiesScore = score.score;
 					enemiesPlace++;
 				}
-				globalEnemiesMessage += enemiesPlace + ". " + score.score + " – " + score.username + "\n";
+				globalEnemiesMessage += enemiesPlace + "." + "\n";
+				globalEnemiesScores += score.score + "\n";
+				globalEnemiesNames += score.username + "\n";
 				enemiesCount++;
 			} else {
 				if (!worldRecordSoloSet) {
@@ -469,7 +507,9 @@ public class ScoreMenuHUD implements Disposable, AsyncHandler<Array<RemoteScore>
 					currentSoloScore = score.score;
 					soloPlace++;
 				}
-				globalSoloMessage += soloPlace + ". " + score.score + " – " + score.username + "\n";
+				globalSoloMessage += soloPlace + "." + "\n";
+				globalSoloScores += score.score + "\n";
+				globalSoloNames += score.username + "\n";
 				soloCount++;
 			}
 		}

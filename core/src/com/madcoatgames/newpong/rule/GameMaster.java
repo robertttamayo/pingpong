@@ -197,6 +197,11 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 	}
 	@Override
 	public void handleTextInput(String text) {
+		System.out.println(text.length());
+		if (text.length() > 12) {
+			initInputTooLong();
+			return;
+		}
 		Global.TEMP_USERNAME = text;
 		NetworkCheckUsername checker = new NetworkCheckUsername();
 		checker.fetch(this);
@@ -220,6 +225,10 @@ public class GameMaster extends ScreenMaster implements TextInputHandler, AsyncH
 	private void initInputInvalid() {
 		RevolveTextInputer listener = new RevolveTextInputer(this);
 		Gdx.input.getTextInput(listener, "Name already taken. Please try a different one", "", "Enter a different name");
+	}
+	private void initInputTooLong() {
+		RevolveTextInputer listener = new RevolveTextInputer(this);
+		Gdx.input.getTextInput(listener, "Too long, name must be 12 characters or less", "", "Enter a name (12 characters or less");
 	}
 	private void uploadScores() {
 		String enemiesScore = SaveDataCache.getHighestString(Global.MISSIONS);

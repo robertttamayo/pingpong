@@ -97,8 +97,10 @@ public class LogicMaster {
 		starBg.setColor(tcc.c2);
 		filled.clear();
 		filled.addAll(starBg.getFilled());
-		filled.addAll(bm.getFilled());
-		filled.addAll(pm.getFilled());
+		if (!Global.textInputActive) {
+			filled.addAll(bm.getFilled());
+			filled.addAll(pm.getFilled());
+		}
 		
 		line.clear();
 		line.addAll(bm.getLine());
@@ -152,12 +154,13 @@ public class LogicMaster {
 		
 		filled.clear();
 		filled.addAll(starBg.getFilled());
-		if (!ebm.getLightningManager().getActive()) {
-			filled.addAll(bm.getFilled());
+		if (!Global.textInputActive) {
+			if (!ebm.getLightningManager().getActive()) {
+				filled.addAll(bm.getFilled());
+			}
+			filled.addAll(em.getEnemyRazzles());
+			filled.addAll(pm.getFilled());
 		}
-		filled.addAll(em.getEnemyRazzles());
-		filled.addAll(pm.getFilled());
-		
 	}
 	public void updatePaused(float delta, HUDRenderer hud){
 		tcc.update(delta);
