@@ -106,8 +106,20 @@ public class BallRenderer implements FilledShapeRenderable, LineShapeRenderable,
 		
 		if (ball.isLive()) {
 			if (ball.hasInfector()) {
-//				shaper.setColor(color.r * .75f, color.g * .75f, color.b * .75f, 1);
-				shaper.setColor(0f, .8f, 0f, 1);
+				if (Global.infectedLevel == 1) {
+					this.cr = .698f; //69.8, 92.5, 36.5 inch worm
+					this.cg = .925f;
+					this.cb = .365f;
+				} else if (Global.infectedLevel == 2) {
+					this.cr = .604f; //60.4, 80.4, 19.6 yellow green
+					this.cg = .804f;
+					this.cb = .196f;
+				} else {
+					this.cr = .553f; // 55.3, 71.4, 0 apple green
+					this.cg = .714f;
+					this.cb = 0f;
+				}
+				shaper.setColor(cr, cg, cb, 1);
 			} else {
 				shaper.setColor(color);
 			}
@@ -138,19 +150,6 @@ public class BallRenderer implements FilledShapeRenderable, LineShapeRenderable,
 					, shape.getRadiusShell(), shape.getAngles()[i] - angleHalf, angleFull);
 		}
 		if (Global.getGameMode() == Global.MISSIONS) {
-			if (Global.infectedLevel == 1) {
-				this.cr = 0f;
-				this.cg = .8f;
-				this.cb = 0f;
-			} else if (Global.infectedLevel == 2) {
-				this.cr = .6f;
-				this.cg = 1f;
-				this.cb = 0f;
-			} else {
-				cr = .8f;
-				cg = .5f;
-				cb = 1f;
-			}
 			renderParticles(shaper);
 		}
 	}

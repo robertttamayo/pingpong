@@ -103,7 +103,7 @@ public class BallPowerupMaster {
 						type = Type.RADIAL;
 						break;
 					}
-//					type = Type.ELECTRICITY;
+//					type = Type.VIRUS;
 					powerLevel = PowerLevel.LOW;
 					actionLow(delta);
 				}

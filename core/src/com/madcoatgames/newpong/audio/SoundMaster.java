@@ -33,37 +33,37 @@ public class SoundMaster implements Disposable{
 	}
 	
 	private void loadPlay(){
-		jump 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Jump4.wav")); //paddle not powerup
-		land 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Hit_Hurt6.wav"));
-		normal 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot8.wav"));//ping pong hit wall vert
+		jump 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Jump4.mp3")); //paddle not powerup
+		land 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Hit_Hurt6.mp3"));
+		normal 		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot8.mp3"));//ping pong hit wall vert
 		acquire 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_hit.mp3"));
 
-		 //lose juice
-		dash		= Gdx.audio.newSound(Gdx.files.internal	("sound/Powerup2.wav"));
-		special		= Gdx.audio.newSound(Gdx.files.internal	("sound/select.wav")); //acquired star //hit paddle
-		hyper		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot21.wav")); //hyper star
-		elec		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot24.wav"));
-		charge		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot19.wav"));
-		
-//		losePowerup = Gdx.audio.newSound(Gdx.files.internal("sound/lose_powerup.mp3"));
-		losePowerup = Gdx.audio.newSound(Gdx.files.internal("sound/new_PlyrHit.wav"));
-//		powerup1 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_1.mp3"));
-//		powerup2 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_2.mp3"));
-//		powerup3 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_3.mp3"));
-		powerup1 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp1.wav"));
-		powerup2 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp2.wav"));
-		powerup3 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp3.wav"));
-//		enemyDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_dead.mp3"));
-//		enemyHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_hit.mp3"));
-		enemyDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/new_enemy_die.wav"));
-		enemyHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/new_enemy_die.wav"));
-		heroHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/alt_gameover.wav"));
-		heroDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/game_over.wav"));
-		paddle_1 = Gdx.audio.newSound(Gdx.files.internal	("sound/1_paddle.wav"));
-		paddle_2 = Gdx.audio.newSound(Gdx.files.internal	("sound/2_paddle.wav"));
-		paddle_3 = Gdx.audio.newSound(Gdx.files.internal	("sound/3_paddle.wav"));
-		paddle_4 = Gdx.audio.newSound(Gdx.files.internal	("sound/4_paddle.wav"));
-		paddle_5 = Gdx.audio.newSound(Gdx.files.internal	("sound/5_paddle.wav"));
+		    //lose juice
+		dash		= Gdx.audio.newSound(Gdx.files.internal	("sound/Powerup2.mp3"));
+		special		= Gdx.audio.newSound(Gdx.files.internal	("sound/select.mp3")); //acquired star //hit paddle
+		hyper		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot21.mp3")); //hyper star
+		elec		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot24.mp3"));
+		charge		= Gdx.audio.newSound(Gdx.files.internal	("sound/Laser_Shoot19.mp3"));
+
+//				losePowerup = Gdx.audio.newSound(Gdx.files.internal("sound/lose_powerup.mp3"));
+		losePowerup = Gdx.audio.newSound(Gdx.files.internal("sound/new_PlyrHit.mp3"));
+//				powerup1 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_1.mp3"));
+//				powerup2 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_2.mp3"));
+//				powerup3 = Gdx.audio.newSound(Gdx.files.internal("sound/power_up_level_3.mp3"));
+		powerup1 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp1.mp3"));
+		powerup2 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp2.mp3"));
+		powerup3 = Gdx.audio.newSound(Gdx.files.internal("sound/new_PwrUp3.mp3"));
+//				enemyDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_dead.mp3"));
+//				enemyHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/enemy_hit.mp3"));
+		enemyDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/new_enemy_die.mp3"));
+		enemyHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/new_enemy_die.mp3"));
+		heroHit 	= Gdx.audio.newSound(Gdx.files.internal	("sound/alt_gameover.mp3"));
+		heroDead 	= Gdx.audio.newSound(Gdx.files.internal	("sound/game_over.mp3"));
+		paddle_1 = Gdx.audio.newSound(Gdx.files.internal	("sound/1_paddle.mp3"));
+		paddle_2 = Gdx.audio.newSound(Gdx.files.internal	("sound/2_paddle.mp3"));
+		paddle_3 = Gdx.audio.newSound(Gdx.files.internal	("sound/3_paddle.mp3"));
+		paddle_4 = Gdx.audio.newSound(Gdx.files.internal	("sound/4_paddle.mp3"));
+		paddle_5 = Gdx.audio.newSound(Gdx.files.internal	("sound/5_paddle.mp3"));
 		
 	}
 	public void disposePlay(){

@@ -26,9 +26,9 @@ public class NetworkCheckUsername {
  
 		HttpRequest httpGet = new HttpRequest(HttpMethods.GET);
 		
-		String url = "https://www.roberttamayo.com/revolve/checkusername.php";
-		if (Gdx.app.getType() == ApplicationType.Desktop) {
-			url = "http://www.roberttamayo.com/revolve/checkusername.php";
+		String url = "http://www.roberttamayo.com/revolve/checkusername.php";
+		if (Gdx.app.getType() == ApplicationType.Android) {
+			url = "https://www.roberttamayo.com/revolve/checkusername.php";
 		}
 		
 		httpGet.setUrl(url);

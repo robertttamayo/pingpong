@@ -127,19 +127,19 @@ public class VirusMaster {
 		}
 		switch(statusLevel) {
 		case 1:
-			r = 0f;
-			g = .8f;
-			b = 0f;
+			r = .698f; //69.8, 92.5, 36.5 inch worm
+			g = .925f;
+			b = .365f;
 			break;
 		case 2: 
-			r = .6f;
-			g = 1f;
-			b = 0f;
+			r = .604f; //60.4, 80.4, 19.6 yellow green
+			g = .804f;
+			b = .196f;
 			break;
 		case 3:
-			r = .8f;
-			g = .5f;
-			b = 1f;
+			r = .553f; // 55.3, 71.4, 0 apple green
+			g = .714f;
+			b = 0f;
 			break;
 		default:
 				r = 0f;
